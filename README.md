@@ -12,6 +12,76 @@ task_id를 찾으면 장비 기입, estimation date 등 정보 기입 -> 관리�
 confirmed=false -> True으로 update -> submit 버튼을 누르면
 사용자에게 메일
 <table>
-  <td><b>blueprint</b>
-    <tr>auth</tr>
-  </td>
+  <tr>
+    <td><b>blueprint</b></td>
+      <td><b>route</b></td>
+          <td><b>variable</b></td>
+              <td><b>Jinja2 template</b></td>
+                  <td><b>arguments</b></td>
+                      <td><b>Assigned</b></td>
+    
+  </tr>
+  <tr>
+  <td> auth</td>
+  <td> login</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td> register</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  
+  <tr>
+  <td> </td>
+  <td>confirm</td>
+    <td>(token)</td>
+    <td></td>
+    <td></td>
+  </tr>
+  
+  <tr>
+  <td><b>main</b> </td>
+  <td>request</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+  <td></td>
+    <td>check</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+  <td></td>
+    <td>confirm</td>
+    <td>(task_id)</td>
+    <td></td>
+    <td></td>
+  </tr>
+  
+  <tr>
+  <td><b>manage</b> </td>
+  <td>equip</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  
+  <tr>
+  <td></td>
+    <td></td>
+    <td>user</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+  <td></td>
+    <td></td>
+    <td>tasks</td>
+    <td></td>
+    <td></td>
+  </tr>
