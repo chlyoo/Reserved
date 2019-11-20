@@ -2,6 +2,7 @@
 <h2>2019-2 SIT32006 TEAM PROJECT</h2>
 
 1.일반사용자가 신청함 -> 자신의 id는 알고 있음. -> current_user
+
 2.일반사용자가 3D 프린터를 선택할 수 있게 할 것인가? -> 없음
 
 <h3>Process FLOW</h3>
