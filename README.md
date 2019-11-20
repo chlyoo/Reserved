@@ -24,6 +24,9 @@ confirmed=false -> True으로 update -> submit 버튼을 누르면
   <tr>
   <td> auth</td>
   <td> login</td>
+  <td></td>
+  <td></td>
+  <td></td>
   </tr>
   <tr>
     <td> </td>
@@ -73,15 +76,15 @@ confirmed=false -> True으로 update -> submit 버튼을 누르면
   
   <tr>
   <td></td>
-    <td></td>
     <td>user</td>
+    <td></td>
     <td></td>
     <td></td>
   </tr>
   <tr>
   <td></td>
-    <td></td>
     <td>tasks</td>
+    <td></td>
     <td></td>
     <td></td>
   </tr>
