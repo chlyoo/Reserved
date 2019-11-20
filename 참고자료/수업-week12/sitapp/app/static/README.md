@@ -1,0 +1,1 @@
+# Static files of the web service
