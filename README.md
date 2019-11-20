@@ -6,7 +6,7 @@
 2.일반사용자가 3D 프린터를 선택할 수 있게 할 것인가? -> 없음
 
 <h3>Process FLOW</h3>
-<b>ToDO</b>
+<b>ToDO</b><br>
 3D 프린팅 신청을 받으면 # get total count of the tasks(tot_count = …)
 
 관리자에게 메일을 보내기 (task_id를 토큰으로)
