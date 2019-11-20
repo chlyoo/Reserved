@@ -11,18 +11,31 @@ class User(object):
 	coworker=""
 	progress=""
 
+class Equip(object):
+	#equipname=""
+	equipid=""
+	spec=""
+	usingcount=""	
+
+
+
 class UserManager(object):
 	pass
 
-class Equip(object):
-	id=""
-	spec=""
 
 class EquipManager(object):
 	'''
-
+장비 예약과 관련한 것? 
+CRUD, 예약및취소, 
 	'''
-	pass
+	equip_create
+	equip_read
+	equip_update
+	equip_delete
+	time_reserve	#장비예약취소가능 시간
+	time_cancel
+
+
 
 class History():
 	pass	
