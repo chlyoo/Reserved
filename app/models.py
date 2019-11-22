@@ -134,7 +134,7 @@ class Progress():
 	user_id=""
 	equip_id=""
 	rdate=""
-	estimated_end_time=0000-00-00 00:00:00
+	estimated_end_time="0000-00-00 00:00:00"
 	estimated_price=-1
 	confirmed=False
 	paid=False
