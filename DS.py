@@ -1,3 +1,7 @@
+#task_id=사용이력같은 개념
+#우리가 필요한건 user의 role, mangere의 role을 구분해서 생각해봐야해.
+
+
 class User(object):
 	id=""
 	stuid=""
@@ -11,14 +15,12 @@ class User(object):
 	coworker=""
 	progress=""
 
+
 class Equip(object):
 	equipname=""
 	equipid=""
 	spec=""
 	usingcount=""
-
-
-
 
 
 class UserManager(object):
@@ -50,7 +52,12 @@ class reservestat(object):
 '''
 
 class progress():
-	
+	User
+	Equip
+
+
+
+
 	stat={}
 
 	def addstat():

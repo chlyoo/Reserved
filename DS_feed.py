@@ -81,4 +81,5 @@ def confirm(task_id):
 # 관리자 페이지면 @login_required @is_administrator
 
 # confirm으로 update -> submit 버튼을 누르면
-# 
+# task_id, user_id 등의 검색
+

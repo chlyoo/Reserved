@@ -51,7 +51,7 @@ def register():
 
     from flask_login import current_user 
 
-@auth.route('/confirm/<token>') #userid
+@auth.route('/confirm/<token>') 
 @login_required 
 def confirm(token): 
     if current_user.confirmed: 
@@ -64,10 +64,10 @@ def confirm(token):
 
 @auth.before_app_request
 def before_request():
-    if current_user.is_authenticated \
-          and not current_user.confirmed \
-          and request.endpoint[:5] != 'auth.':
-        return redirect(url_for('auth.unconfirmed'))
+    if current_user.is_authenticated:
+        current_user.ping()
+        if not current_user.confirmed and request.endpoint[:5] != 'auth.':
+            return redirect(url_for('auth.unconfirmed'))
 
 @auth.route('/unconfirmed')
 def unconfirmed():
