@@ -15,10 +15,9 @@ from datetime import datetime
 
 class User(UserMixin, object):
 	id = ""
-	username = "cbchoi"
-	role = None # 20191112
-	password_hash = ""
-	confirmed = False
+	name = ""
+	membergrade=0
+	Point=0
 	member_since = ""
 	last_seen = ""
 
@@ -123,6 +122,24 @@ class User(UserMixin, object):
 			### 20191122
 			self.member_since = data.get('member_since')
 			self.last_seen = data.get('last_seen')
+
+class Equip():
+	equipid=""
+	equipname=""
+	spec=""
+	usingcount=0
+
+class Progress():
+	task_id:0
+	user_id=""
+	equip_id=""
+	rdate=""
+	estimated_end_time=0000-00-00 00:00:00
+	estimated_price=-1
+	confirmed=False
+	paid=False
+	complete=False
+
 
 ###
 # 20191112

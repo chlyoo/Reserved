@@ -31,7 +31,7 @@ def index():
 # 20191122
 @main.route('/user/<username>')
 def user(username):
-	collection = db.get_collection('users')
+	collection = db.get_collection('user')
 	results = collection.find_one({'username':username})
 	if results is not None:
 		user = User("", "", "") 
@@ -47,7 +47,7 @@ def edit_profile():
 	if form.validate_on_submit():
 		current_user.username = form.username.data	
 		# db update
-		collection = db.get_collection('users')
+		collection = db.get_collection('user')
 		collection.delete_one({'id':current_user.id})
 		collection.insert_one(current_user.to_dict())
 
@@ -60,7 +60,7 @@ def edit_profile():
 @login_required
 @admin_required
 def edit_profile_admin(id):
-	collection = db.get_collection('users')
+	collection = db.get_collection('user')
 	result = collection.find_one({'id':id})
 	if result != None:
 		user = User(id, "", "")
