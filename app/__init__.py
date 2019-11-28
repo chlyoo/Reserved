@@ -12,11 +12,7 @@ login_manager.login_view = 'auth.login'
 
 import pymongo
 conn = pymongo.MongoClient('mongodb://db:27017')
-db=conn.get_database('Reserved')
-col_user = db.get_collection('user')
-col_equip = db.get_collection('equip')
-col_progress = db.get_collection('progress')
-
+db = conn.get_database('Reserved')
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -39,7 +35,5 @@ def create_app(config_name):
 	app.register_blueprint(main_blueprint)
 	from .auth import auth as auth_blueprint
 	app.register_blueprint(auth_blueprint, url_prefix="/auth")
-	from .manage import manage as manage_blueprint
-	app.register_blueprint(manage_blueprint, url_prefix="/manage")
 	
 	return app

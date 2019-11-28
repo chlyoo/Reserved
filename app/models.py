@@ -13,18 +13,68 @@ from flask_login import AnonymousUserMixin
 # 20191122
 from datetime import datetime
 
+
+class Equip(object):
+	equipid = ""
+	equipname = ""
+	spec = ""
+	usingcount = 0
+
+
+class Progress(object):
+	taskid:0
+	userid = ""
+	equipid = ""
+	rdate = ""
+	estimated_end_time = "0000-00-00 00:00:00"
+	estimated_price = -1
+	confirmed = False
+	paid = False
+	complete = False
+
+	def __init__(self, equipid, rdate):
+
+		# ㅋ클래스 생성시 equip id rdate입력하면 taskid업데이트 및 초기화 진행
+		col_progress = db.get_collection(‘progress
+		')
+		try:
+			totcount = col_progress.find_one(sort=[("taskid", -1)])['taskid']
+		except:
+			totcount = 0
+		col_progress.insert_one({'taskid' : totcount + 1, 'user_id':
+			current_user['id'], 'equip_id': equipid, 'rdate': rdate, 'estimated_end_time': '0000 - 00 - 00
+								 00       : 00:00
+		', '
+		estimated_price
+		':-1, '
+		confirmed
+		':False, '
+		paid
+		':False, '
+		complete
+		':False})
+
+	def confirm(self):
+		pass  # input data by admin and change confirm status mail to user
+
+	def complete(self):
+		pass  # 예상 작업시간 중간중간에 도달하면 mail to user and Admin
 class User(UserMixin, object):
 	id = ""
-	name = ""
-	membergrade=0
-	Point=0
+	username = "cbchoi"
+	role = None  # 20191112
+	password_hash = ""
+	confirmed = False
 	member_since = ""
 	last_seen = ""
+	membergrade = 0
+	point = 0
 
-	def __init__(self, email, username, password):
+	def __init__(self, email, username, password, stuid):
 		self.id = email
 		self.username = username
 		self.password = password
+		self.stuid = stuid
 
 		###
 		#20191112
@@ -52,7 +102,7 @@ class User(UserMixin, object):
 		collection = db.get_collection('users')
 		results = collection.find_one({'id':user_id})
 		if results is not None:
-			user = User(results['id'], "", "") # 20191112
+			user = User(results['id'], "", "", "")  # 20191112
 			user.from_dict(results)
 			return user
 		else:
@@ -96,17 +146,18 @@ class User(UserMixin, object):
 # 20191028
 	def to_dict(self):
 		dict_user = {
-			'id': self.id, 
-			'username':self.username,
+				'id'           : self.id,
+				'username'     : self.username,
+				'stuid'        : self.stuid,
 			### 20191112
-			'role_id':self.role.name,
-			'role_permission':self.role.permission,
+				'role_id'      : self.role.name,
+			'role_permission'  :self.role.permission,
 			####
-			'password_hash':self.password_hash,
-			'confirmed':self.confirmed,
+				'password_hash': self.password_hash,
+				'confirmed'    : self.confirmed,
 			### 20191122
-			'member_since':self.member_since,
-			'last_seen':self.last_seen
+				'member_since' : self.member_since,
+				'last_seen'    : self.last_seen
 		}
 		return dict_user
 
@@ -114,6 +165,7 @@ class User(UserMixin, object):
 		if data is not None:
 			self.id = data['id']
 			self.username = data['username']
+			self.stuid = data['stuid']
 			### 20191112
 			self.role = Role(data['role_id'], data['role_permission'])
 			###
@@ -122,24 +174,6 @@ class User(UserMixin, object):
 			### 20191122
 			self.member_since = data.get('member_since')
 			self.last_seen = data.get('last_seen')
-
-class Equip():
-	equipid=""
-	equipname=""
-	spec=""
-	usingcount=0
-
-class Progress():
-	task_id:0
-	user_id=""
-	equip_id=""
-	rdate=""
-	estimated_end_time="0000-00-00 00:00:00"
-	estimated_price=-1
-	confirmed=False
-	paid=False
-	complete=False
-
 
 ###
 # 20191112

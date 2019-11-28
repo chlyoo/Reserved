@@ -10,17 +10,17 @@ col_user.delete_many({})
 col_equip.delete_many({})
 col_progress.delete_many({})
 
-col_user.insert_many([{'id':"21300259@handong.edu",'stuid':21300259, 'name':"peterlyoo", 'membergrade':5,'point':10},
-{'id':"21300704@handong.edu",'stuid':21300704, 'name':"jino", 'membergrade':5,'point':15},
-{'id':"21400259@handong.edu",'stuid':21400259, 'name':"nosummer", 'membergrade':4,'point':20},
-{'id':"21500259@handong.edu",'stuid':21500259, 'name':"unknown", 'membergrade':3, 'point':30}])
+col_user.insert_many(
+ [{'id': "21300259@handong.edu", 'stuid': 21300259, 'username': "peterlyoo", 'membergrade': 5, 'point': 10},
+  {'id': "21300704@handong.edu", 'stuid': 21300704, 'username': "jino", 'membergrade': 5, 'point': 15},
+  {'id': "21400259@handong.edu", 'stuid': 21400259, 'username': "nosummer", 'membergrade': 4, 'point': 20},
+  {'id': "21500259@handong.edu", 'stuid': 21500259, 'username': "unknown", 'membergrade': 3, 'point': 30}])
 col_equip.insert_many([{'equipid':'e20190001', 'equipname':'printerxz', 'spec':'No', 'usingcount':1},
 {'equipid':'e20190003', 'equipname':'printeryy', 'spec':'Yes', 'usingcount':3},
 {'equipid':'e20190002', 'equipname':'printerCBC', 'spec':'No', 'usingcount':4},
 {'equipid':'e20190005', 'equipname':'printerD', 'spec':'Yes', 'usingcount':5}])
 
-
-current_user = {'id':"21300259@handong.edu",'stuid':21300259, 'name':"peterlyoo", 'membergrade':5,'point':10}
+current_user = {'id': "21300259@handong.edu", 'stuid': 21300259, 'username': "peterlyoo", 'membergrade': 5, 'point': 10}
 
 results = col_user.find()
 [print(result) for result in results] 

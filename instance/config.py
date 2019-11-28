@@ -1,23 +1,10 @@
-import os 
-basedir = os.path.abspath(os.path.dirname(__file__)) 
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USE_SSL = False
+MAIL_USERNAME = "21300259@handong.edu"
+MAIL_PASSWORD = "vkfrofaoagsokkbv"
 
-class Config: 
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'  
-    @staticmethod 
-    def init_app(app): 
-        pass
-
-class DevelopmentConfig(Config): 
-    DEBUG = True
-
-class TestingConfig(Config): 
-     TESTING = True
-
-class ProductionConfig(Config): pass
-
-config = { 
-    'development': DevelopmentConfig, 
-    'testing': TestingConfig, 
-    'production': ProductionConfig, 
-    'default': DevelopmentConfig 
-} 
+MAIL_SUBJECT_PREFIX = 'Reserved'
+MAIL_SENDER = "21300259@handong.edu"
+ADMIN = 'peterscience@naver.com'

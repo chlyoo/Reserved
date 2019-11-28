@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}ReserveD{% endblock %}
+{% block title %}sitapp{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -16,7 +16,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">3D 프린터 예약 시스템</a>
+            <a class="navbar-brand" href="/">sitapp</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -50,4 +50,5 @@
 
 {% block scripts %}
 {{ super() }}
+{{ moment.include_moment() }} {# 20191122 #}
 {% endblock %}

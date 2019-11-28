@@ -32,10 +32,9 @@ class EditProfileAdminForm(FlaskForm):
 		super(EditProfileAdminForm, self).__init__(*args, **kwargs)
 		collection = db.get_collection('roles')
 		results = collection.find({ } , { "name": True })
-		
-		lst = [result['name'] for result in results] 
-		print(lst)
-		r_lst = [(num, role) for num, role in enumerate(lst)]
+
+		lst = [result['name'] for result in results]
+		r_lst = [(role, role) for role in lst]
 
 		self.role.choices = r_lst
 		self.user = user

@@ -31,10 +31,10 @@ def index():
 # 20191122
 @main.route('/user/<username>')
 def user(username):
-	collection = db.get_collection('user')
+	collection = db.get_collection('users')
 	results = collection.find_one({'username':username})
 	if results is not None:
-		user = User("", "", "") 
+		user = User("", "", "", "")
 		user.from_dict(results)
 		return render_template('user.html', user=user)
 	else:
@@ -45,9 +45,10 @@ def user(username):
 def edit_profile():
 	form = EditProfileForm()
 	if form.validate_on_submit():
-		current_user.username = form.username.data	
+		current_user.username = form.username.data
+
 		# db update
-		collection = db.get_collection('user')
+		collection = db.get_collection('users')
 		collection.delete_one({'id':current_user.id})
 		collection.insert_one(current_user.to_dict())
 
@@ -60,19 +61,20 @@ def edit_profile():
 @login_required
 @admin_required
 def edit_profile_admin(id):
-	collection = db.get_collection('user')
+	collection = db.get_collection('users')
 	result = collection.find_one({'id':id})
 	if result != None:
-		user = User(id, "", "")
+		user = User(id, "", "", "")
 		user.from_dict(result)
 		form = EditProfileAdminForm(user=user)
 		if form.validate_on_submit():
 			user.id = form.id.data
 			user.username = form.username.data
 			user.confirmed = form.confirmed.data
-			print(form.role.data)
-			#user.role = Role.query.get(form.role.data)
-			#db.session.add(user)
+			# db update
+			collection = db.get_collection('users')
+			collection.update_one({'id': user.id}, {'$set': {'role_id': form.role.data}})
+			
 			flash('The profile has been updated.')
 			return redirect(url_for('.user', username=user.username))
 		form.id.data = user.id
