@@ -26,39 +26,62 @@ class Progress(object):
 	userid = ""
 	equipid = ""
 	rdate = ""
-	estimated_end_time = "0000-00-00 00:00:00"
+	estimated_end_time = "0000-00-00"
 	estimated_price = -1
 	confirmed = False
 	paid = False
 	complete = False
 
 	def __init__(self, equipid, rdate):
-
-		# ㅋ클래스 생성시 equip id rdate입력하면 taskid업데이트 및 초기화 진행
-		col_progress = db.get_collection(‘progress
-		')
+		self.equipid = equipid
+		self.rdate = rdate
+		# 클래스 생성시 equip id rdate입력하면 taskid업데이트 및 초기화 진행
+		col_progress = db.get_collection('progress')
 		try:
 			totcount = col_progress.find_one(sort=[("taskid", -1)])['taskid']
 		except:
 			totcount = 0
 		col_progress.insert_one({'taskid' : totcount + 1, 'user_id':
-			current_user['id'], 'equip_id': equipid, 'rdate': rdate, 'estimated_end_time': '0000 - 00 - 00
-								 00       : 00:00
-		', '
-		estimated_price
-		':-1, '
-		confirmed
-		':False, '
-		paid
-		':False, '
-		complete
-		':False})
+			current_user['id'], 'equip_id': equipid, 'rdate': rdate, 'estimated_end_time': '0000 - 00 - 00 00:00:00', 'estimated_price':-1, 'confirmed':False, 'paid':False, 'complete':False})
 
 	def confirm(self):
 		pass  # input data by admin and change confirm status mail to user
 
 	def complete(self):
 		pass  # 예상 작업시간 중간중간에 도달하면 mail to user and Admin
+
+	def to_dict(self):
+		dict_user = {
+				'taskid'       : self.totcount+1
+				'userid'     : self.userid,
+				'equipid'        : self.equipid,
+			### 20191112
+				'rdate'      : self.rdate,
+			'estimated_end_time'  :self.estimated_end_time
+			####
+				'estimated_price': self.estimated_price,
+				'confirmed'    : self.confirmed,
+			### 20191122
+				'paid' : self.paid,
+				'complete'    : self.complete
+		}
+		return dict_user
+
+	def from_dict(self, data):
+		if data is not None:
+			self.taskid = data['taskid']
+			self.userid = data['userid']
+			self.equipid = data['equipid']
+			### 20191112
+			self.rdate = data['rdate']
+			###
+			self.estimated_end_time = data['estimated_end_time']
+			self.estimated_price = data['estimated_price']
+			### 20191122
+			self.confirmed = data['confirmed']
+			self.paid = data['paid']
+			self.complete=data['complete']
+			
 class User(UserMixin, object):
 	id = ""
 	username = "cbchoi"

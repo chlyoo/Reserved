@@ -17,11 +17,11 @@ class RegistrationForm(FlaskForm):
 	email = StringField('Email', validators=[Required(), Length(1, 64), Email()])
 
 
-username = StringField('Username',
+	username = StringField('Username',
                        validators=[Required(), Length(1, 64), Regexp('^[가-힣A-Za-z][가-힣A-Za-z0-9_.]*$', 0,
 							'Usernames must have only letters, '
 							'numbers, dots or underscores')])
-stuid = StringField('Stuid', validators=[Required(), Length(5, 8)])
+	stuid = StringField('Stuid', validators=[Required(), Length(5, 8)])
 	password = PasswordField('Password', validators=[Required(), 
 													EqualTo('password2', 
 													message='Passwords must match.')])

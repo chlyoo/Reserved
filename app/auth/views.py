@@ -16,9 +16,7 @@ def login():
 		collection = db.get_collection('users')
 		results = collection.find_one({'id':form.email.data})
 		if results is not None:
-
-
-user = User(form.email.data, "", "", "")  # 20191112
+			user = User(form.email.data, "", "", "")  # 20191112
 			#print(form.email.data)
 			user.from_dict(results)
 			if user is not None and user.verify_password(form.password.data):
@@ -36,41 +34,41 @@ def logout():
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(email=form.email.data, username=form.username.data, password=form.password.data,
-                    stuid=form.stuid.data)
-        collection = db.get_collection('users')
-        collection.insert_one(user.to_dict())
-        
-        ### 20191108
-        token = user.generate_confirmation_token()
-        send_email(user.id, 'Confirm Your Account', 'auth/email/confirm', user=user, token=token)
-        flash('A confirmation email has been sent to you by email.')
-        return redirect(url_for('main.index'))
-        #return redirect(url_for('auth.login')) 
-        ###
-    return render_template('auth/register.html', form=form)
+	form = RegistrationForm()
+	if form.validate_on_submit():
+		user = User(email=form.email.data, username=form.username.data, password=form.password.data,
+					stuid=form.stuid.data)
+		collection = db.get_collection('users')
+		collection.insert_one(user.to_dict())
 
-    from flask_login import current_user 
+		### 20191108
+		token = user.generate_confirmation_token()
+		send_email(user.id, 'Confirm Your Account', 'auth/email/confirm', user=user, token=token)
+		flash('A confirmation email has been sent to you by email.')
+		return redirect(url_for('main.index'))
+		#return redirect(url_for('auth.login'))
+		###
+	return render_template('auth/register.html', form=form)
+
+	from flask_login import current_user
 
 @auth.route('/confirm/<token>') 
 @login_required 
 def confirm(token): 
-    if current_user.confirmed: 
-        return redirect(url_for('main.index')) 
-    if current_user.confirm(token): 
-        flash('You have confirmed your account. Thanks!') 
-    else: 
-        flash('The confirmation link is invalid or has expired.') 
-    return redirect(url_for('main.index'))
+	if current_user.confirmed:
+		return redirect(url_for('main.index'))
+	if current_user.confirm(token):
+		flash('You have confirmed your account. Thanks!')
+	else:
+		flash('The confirmation link is invalid or has expired.')
+	return redirect(url_for('main.index'))
 
 @auth.before_app_request
 def before_request():
-    if current_user.is_authenticated:
-        current_user.ping()
-        if not current_user.confirmed and request.endpoint[:5] != 'auth.':
-            return redirect(url_for('auth.unconfirmed'))
+	if current_user.is_authenticated:
+		current_user.ping()
+		if not current_user.confirmed and request.endpoint[:5] != 'auth.':
+			return redirect(url_for('auth.unconfirmed'))
 
 @auth.route('/unconfirmed')
 def unconfirmed():

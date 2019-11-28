@@ -89,10 +89,19 @@ def edit_profile_admin(id):
 @login_required
 @admin_required
 def for_admins_only():
-    return "For administrators!"
+	return "For administrators!"
 
 @main.route('/moderator')
 @login_required
 @permission_required(Permission.MODERATE_COMMENTS)
 def for_moderators_only():
-    return "For comment moderators!"
+	return "For comment moderators!"
+
+@main.route('/reserve')
+@login_required
+def reserve_equip():
+	collection = db.get_collection('users')
+	result = collection.find_one({'id': id})
+	if result != None:
+		user = User(id, "", "", "")
+		user.from_dict(result)
