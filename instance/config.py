@@ -3,7 +3,7 @@ MAIL_PORT = 587
 MAIL_USE_TLS = True
 MAIL_USE_SSL = False
 MAIL_USERNAME = "21300259@handong.edu"
-MAIL_PASSWORD = "vkfrofaoagsokkbv"
+MAIL_PASSWORD = "hdghlzgdpwbxwqpk"
 
 MAIL_SUBJECT_PREFIX = 'Reserved'
 MAIL_SENDER = "21300259@handong.edu"

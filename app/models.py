@@ -52,12 +52,12 @@ class Progress(object):
 
 	def to_dict(self):
 		dict_user = {
-				'taskid'       : self.totcount+1
+				'taskid'       : self.totcount+1,
 				'userid'     : self.userid,
 				'equipid'        : self.equipid,
 			### 20191112
 				'rdate'      : self.rdate,
-			'estimated_end_time'  :self.estimated_end_time
+			'estimated_end_time'  :self.estimated_end_time,
 			####
 				'estimated_price': self.estimated_price,
 				'confirmed'    : self.confirmed,
