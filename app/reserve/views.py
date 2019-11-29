@@ -19,11 +19,11 @@ from flask import send_file
 
 @login_required
 @reserve.route('/', methods=['GET', 'POST'])
-def show_equips():메인페이지
+def show_equips():#메인페이지
     # 이부분을 프린터 띄우는 코드로 수정하기
     #프린터를 보여주고 프린트가 사용가능한 날짜,시간 표시하기
-	return render_template('reserve/img_lst.html',
-		file_lst = [url_for('img.image', filename=file) for file in fs.list()])
+	return render_template('reserve/equip_lst.html',
+		file_lst = [url_for('reserve.image', filename=file) for file in fs.list()])
 
 @reserve.route('/reserve', methods=['GET', 'POST'])
 def make_reserve():
@@ -34,8 +34,8 @@ def make_reserve():
         print(filename)
         token = user.generate_confirmation_token()#유저로 만드는게아니라 프로그레스로 만들어야함
         send_email(user.id, 'Confirm Reservation', 'auth/email/confirm', user=user, token=token)
-        return redirect(url_for('img.show_images'))
-    return render_template('img/img_register.html', form=form)
+        return redirect(url_for('reserve.show_equips'))
+    return render_template('reserve/workfile_register.html', form=form)
 
 
 @reserve.route('/workspace/<filename>')
