@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_moment import Moment
 
-from config import config
+from instance.config import config
 
 from flask_login import LoginManager
 login_manager = LoginManager()
