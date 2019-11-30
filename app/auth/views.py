@@ -83,24 +83,3 @@ def resend_confirmation():
 	send_email('auth/email/confirm','Confirm Your Account', user, token=token)
 	flash('A new confirmation email has been sent to you by email.')
 	return redirect(url_for('main.index'))
-
-'''
-@auth.route('/mypage', methods=['GET', 'POST'])
-@login_required 
-def mypage():
-	form = RegistrationForm()
-	if form.validate_on_submit():
-		user = User(email=form.email.data, username=form.username.data, password=form.password.data,
-					stuid=form.stuid.data)
-		collection = db.get_collection('users')
-		collection.insert_one(user.to_dict())
-
-		### 20191108
-		token = user.generate_confirmation_token()
-		send_email(user.id, 'Confirm Your Account', 'auth/email/confirm', user=user, token=token)
-		flash('A confirmation email has been sent to you by email.')
-		return redirect(url_for('main.index'))
-		#return redirect(url_for('auth.login'))
-		###
-	return render_template('auth/register.html', form=form)
-	'''

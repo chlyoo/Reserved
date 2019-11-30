@@ -1,0 +1,10 @@
+Dear Admin,
+
+{{ progress.user_id }} 사용자가 장비 예약을 신청했습니다
+허가하시려면 여기를 클릭해주세요.
+{{ url_for('auth.confirm', taskid=taskid, _external=True) }}
+
+Sincerely,
+Reserved
+
+Note: replies to this email address are not monitored.
