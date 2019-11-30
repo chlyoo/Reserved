@@ -16,12 +16,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">sitapp</a>
+            <a class="navbar-brand" href="/">Reserved</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
-                <li><a href="/reserve">Reserve</a></li>
+                <li><a href="{{ url_for('reserve.make_reserve')}}">Reserve</a></li><!--#,id=current_user.id-->
+                <li><a href="/mypage">My page</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
