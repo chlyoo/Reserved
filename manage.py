@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import os
 from app import create_app
-from app import views
 from app.models import User, Role # 20191112
 from flask_script import Manager, Shell, Server
 

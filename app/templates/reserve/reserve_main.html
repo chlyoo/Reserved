@@ -8,9 +8,16 @@
 
     <h1>Reserve</h1>
 </div>
+<div>
     {{ wtf.quick_form(form1) }}
      <br>
+
+    {{ wtf.quick_form(form2) }}
+</div>
+
 <div>
-{{ wtf.quick_form(form2) }}
+	{% for file in file_lst %}
+		<file src="{{ file }}">
+	{% endfor %}
 </div>
 {% endblock %}
