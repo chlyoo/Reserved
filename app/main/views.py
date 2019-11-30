@@ -63,9 +63,9 @@ def edit_profile():
 @admin_required
 def edit_profile_admin(id):
 	collection = db.get_collection('users')
-	result = collection.find_one({'id':id})
+	result = collection.find_one({'id': id})
 	if result != None:
-		user = User(id, "", "", "")
+		user = User(id, "", "")
 		user.from_dict(result)
 		form = EditProfileAdminForm(user=user)
 		if form.validate_on_submit():
@@ -75,7 +75,7 @@ def edit_profile_admin(id):
 			# db update
 			collection = db.get_collection('users')
 			collection.update_one({'id': user.id}, {'$set': {'role_id': form.role.data}})
-			
+
 			flash('The profile has been updated.')
 			return redirect(url_for('.user', username=user.username))
 		form.id.data = user.id
@@ -85,6 +85,7 @@ def edit_profile_admin(id):
 		return render_template('edit_profile.html', form=form, user=user)
 	else:
 		abort(404)
+
 
 @main.route('/admin')
 @login_required
