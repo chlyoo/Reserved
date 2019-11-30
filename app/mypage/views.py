@@ -1,7 +1,7 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, session, url_for, flash
 from flask_login import login_user, login_required, logout_user
 from flask_login import current_user
-from ..models import User
+from ..models import User, Progress
 from . import mypage
 from .. import db
 from ..decorators import admin_required, permission_required

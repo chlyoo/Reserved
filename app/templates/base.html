@@ -22,7 +22,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
                 <li><a href="{{ url_for('reserve.make_reserve')}}">Reserve</a></li><!--#,id=current_user.id-->
-                <li><a href="/mypage">My page</a></li>
+                <li><a href="{{ url_for('mypage.show_reservation')}}">My page</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}

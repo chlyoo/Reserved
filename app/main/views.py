@@ -11,9 +11,8 @@ from ..decorators import admin_required, permission_required
 
 # 20191122
 from .. import db
-from .forms import EditProfileForm, EditProfileAdminForm
 from flask_login import current_user
-
+from .forms import EditProfileForm, EditProfileAdminForm
 @main.route('/', methods=['GET', 'POST'])
 def index():
 	form = NameForm()

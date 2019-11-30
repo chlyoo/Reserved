@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-
-{% block title %}Flasky - Confirm your account
-
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Reserved - Mypage {% endblock %}
 {% block page_content %}
 <div class="page-header">
     <h1>
@@ -10,4 +9,6 @@
     <h3>예약한 장비 목록을 확인합니다.</h3>
     <p>
         {{ progress.user_id }}사용자가 예약한 장비</p>
-{% endblock %}
+</div>
+    {% endblock %}
+
