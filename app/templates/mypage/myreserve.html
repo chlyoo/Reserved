@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Flasky - Confirm your account{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        안녕하십니까, {{ progress.user_id }}!
+    </h1>
+    <h3>예약한 장비 목록을 확인합니다.</h3>
+    <p>
+        {{ progress.user_id }}사용자가 예약한 장비</p>
+<p> 예약내역은 아래와 같습니다.></p>
+<p>링크가 작동하지 않으면 아래 주소를 복사해서 주소창에 붙여넣어 주세요</p>
+<p>{{ url_for('auth.confirm', taskid=taskid, _external=True) }}</p>
+<p/>
+<p>Sincerely,</p>
+<p>Reserved</p>
+<p/>
+<p><small>Note: replies to this email address are not monitored.</small></p>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}sitapp - Image{% endblock %}
+
+{% block page_content %}
+<div>
+	<a href="{{ url_for('img.register_images') }}"> Image Register </a>
+</div>
+
+<div>
+	{% for image in file_lst %}
+		<img src="{{ image }}">
+	{% endfor %}
+</div>
+{% endblock %}

@@ -109,35 +109,3 @@ def reserve_equip():
 		user.from_dict(result)
 '''
 
-
-
-'''
-@auth.route('/mypage')
-@login_required 
-
-
-def mypage(token):
-	if current_user.confirmed:
-		return redirect(url_for('main.index'))
-	if current_user.confirm(token):
-		flash('You have confirmed your account. Thanks!')
-	else:
-		flash('The confirmation link is invalid or has expired.')
-	return redirect(url_for('main.index'))
-
-
-def edit_profile():
-	form = EditProfileForm()
-	if form.validate_on_submit():
-		current_user.username = form.username.data
-
-		# db update
-		collection = db.get_collection('users')
-		collection.delete_one({'id':current_user.id})
-		collection.insert_one(current_user.to_dict())
-
-		flash('Your profile has been updated.')
-		return redirect(url_for('.user', username=current_user.username))
-	form.username.data = current_user.username
-	return render_template('edit_profile.html', form=form)
-	'''

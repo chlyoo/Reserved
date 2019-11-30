@@ -83,3 +83,16 @@ def resend_confirmation():
 	send_email('auth/email/confirm','Confirm Your Account', user, token=token)
 	flash('A new confirmation email has been sent to you by email.')
 	return redirect(url_for('main.index'))
+
+
+@auth.route('/mypage')
+@login_required 
+#이곳에 예약한 장비의 목록과 현황을 보여주기
+def mypage(token):
+	if current_user.confirmed:
+		return redirect(url_for('main.index'))
+	if current_user.confirm(token):
+		flash('You have confirmed your account. Thanks!')
+	else:
+		flash('The confirmation link is invalid or has expired.')
+	return redirect(url_for('main.index'))
