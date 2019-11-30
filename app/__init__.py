@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_moment import Moment
 
-from config import config
+from instance.config import config
 
 from flask_login import LoginManager
 login_manager = LoginManager()
@@ -35,5 +35,7 @@ def create_app(config_name):
 	app.register_blueprint(main_blueprint)
 	from .auth import auth as auth_blueprint
 	app.register_blueprint(auth_blueprint, url_prefix="/auth")
+	from .reserve import reserve as reserve_blueprint
+	app.register_blueprint(reserve_blueprint, url_prefix="/reserve")
 	
 	return app

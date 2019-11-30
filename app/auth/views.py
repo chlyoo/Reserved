@@ -86,6 +86,7 @@ def resend_confirmation():
 
 '''
 @auth.route('/mypage', methods=['GET', 'POST'])
+@login_required 
 def mypage():
 	form = RegistrationForm()
 	if form.validate_on_submit():

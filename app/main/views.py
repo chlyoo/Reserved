@@ -25,6 +25,7 @@ def index():
 		form.name.data = ''
 		return redirect(url_for('.index'))
 	return render_template('index.html',
+							equip_lst = ['a', 'b', 'c'],
 							form=form, name=session.get('name'),
 							known=session.get('known', False),
 							current_time=datetime.utcnow())
@@ -97,6 +98,7 @@ def for_admins_only():
 def for_moderators_only():
 	return "For comment moderators!"
 
+'''
 @main.route('/reserve')
 @login_required
 def reserve_equip():
@@ -105,3 +107,4 @@ def reserve_equip():
 	if result != None:
 		user = User(id, "", "", "")
 		user.from_dict(result)
+'''
