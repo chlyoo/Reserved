@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'detail/stylesheets/style.css' %}" type="text/css" />
+{% endblock %}
+{% block title %}MyPage{% endblock %}
+
+{% block body %}
+
+    
+    
+    <!--사용자 정보 카드-->
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col">
+                <div class="card position-fixed " style="width: 18rem;">
+                  <img src=" {% static 'detail/images/stormtruper.jpg' %}" class="card-img-top mt-3 rounded-circle " alt="사용자 이미지">
+                  <div class="card-body">
+                    <h5 class="card-title">"이름"</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">sshyeri.k@gmail.com</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Logout</a>
+                  </div>
+                </div>
+            </div>
+        
+        
+        <div class="col">
+            <div class="container d-flex flex-column justify-content-end">
+            {% for i in n %}
+                <div class="card d-flex" style="width: 18rem;">
+                  <img src="{% static 'detail/images/myphoto.jpg' %}" class="card-img-top" alt="사용자게시물">
+                  <div class="card-body">
+                    <h5 class="card-title">Me in earth</h5>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    </div>
+        
+    
+    
+{% endblock %}
