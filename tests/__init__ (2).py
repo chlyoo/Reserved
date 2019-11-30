@@ -1,6 +1,6 @@
- bower install bootstrap-calendarasn1crypto==0.24.0
+asn1crypto==0.24.0
 Click==7.0
-cryptography>=2.3
+cryptography==2.1.4
 dominate==2.4.0
 Flask==1.1.1
 Flask-Bootstrap==3.3.7.1
@@ -12,13 +12,12 @@ Jinja2==2.10.1
 keyring==10.6.0
 keyrings.alt==3.0
 MarkupSafe==1.1.1
-pycryptodome==3.9.0
+pycrypto==2.6.1
 pygobject==3.26.1
 pymongo==3.9.0
-pyxdg>=0.26
+pyxdg==0.25
 SecretStorage==2.3.1
 six==1.11.0
 visitor==0.1.3
 Werkzeug==0.15.6
 WTForms==2.2.1
-

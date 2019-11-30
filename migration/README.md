@@ -1,1 +1,0 @@
-# DB migration scripts for the project

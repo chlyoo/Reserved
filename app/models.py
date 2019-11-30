@@ -28,28 +28,33 @@ class Equip(object):
 
 class Progress(object):
 	taskid:0
-	userid = ""
-	equipid = ""
-	rdate = dict()
 	estimated_end_time = "0000-00-00 00:00"
 	estimated_price = -1
 	confirmed = False
 	paid = False
 	complete = False
 
-	def __init__(self, equipid, rdate,id):
+	def __init__(self, equipid, rdate, userid):
 		self.equipid = equipid
 		self.rdate = rdate
-		self.id = id
+		self.userid = userid
 
-		# 클래스 생성시 equip id rdate입력하면 taskid업데이트 및 초기화 진행
+		# 클래스 생성시 equip rdate id 입력하면 taskid업데이트 및 초기화 진행
+		# initiate 3d printing task
+
+		# get total count of the tasks
+		tot_count = 0
+
 		col_progress = db.get_collection('progress')
 		try:
-			self.totcount = col_progress.find_one(sort=[("taskid", -1)])['taskid']
+			tot_count = col_progress.find_one(sort=[("task_id", -1)])['task_id']
 		except:
-			self.totcount = 0
-		col_progress.insert_one({'taskid' : self.totcount + 1, 'user_id':
-			id, 'equip_id': equipid, 'rdate': rdate, 'estimated_end_time': '0000 - 00 - 00 00:00:00', 'estimated_price':-1, 'confirmed':False, 'paid':False, 'complete':False})
+			tot_count = 0
+
+		col_progress.insert_one(
+			{'task_id'           : tot_count + 1, 'user_id': userid, 'equip_id':equipid , 'rdate':rdate ,
+			 'estimated_end_time': '0000-00-00 00:00:00', 'estimated_price': -1, 'confirmed': False, 'paid': False,
+			 'complete'          : False})
 
 	def generate_token(self, expiration=False):
 		s = Serializer(current_app.config['SECRET_KEY'], expiration)
