@@ -9,86 +9,118 @@ from flask import current_app, request, url_for
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer 
 # 20191112
 from flask_login import AnonymousUserMixin
+from .email import send_email
 
 # 20191122
 from datetime import datetime
 
 
 class Equip(object):
-	equipid = ""
+	equipid=""
 	equipname = ""
 	spec = ""
 	usingcount = 0
 	rdate = dict()
 
-	def __init__(self, equipid,equipname):
+	def __init__(self, equipid):
 		self.equipid=equipid
-		self.equipname=equipname
 
+	def return_rdate(self):
+		collection = db.get_collection('equip')
+		results = collection.find_one({'equipid':self.equipid})
+		return results.pop('rdate')
+
+	def update_equiprdate(self,equipid,equiprdate):
+		self.rdate=equiprdate
+		self.equipid=equipid
+		self.to_dict()
+		collection=db.get_collection('equip')
+		collection.update_one({'equipid':self.equipid},{'$set':{'rdate':self.rdate}})
+
+	def to_dict(self):
+		dict_equip = {
+				'equipid'       : self.equipid,
+				'equipname'     : self.equipname,
+				'spec'        : self.spec,
+				'usingcount'      : self.usingcount,
+				'rdate':self.rdate,
+					}
+		return dict_equip
+
+	def from_dict(self, data):
+		if data is not None:
+			self.equipid = data['equipid']
+			self.equipname = data['equipname']
+			self.spec = data['spec']
+			self.usingcount = data['usingcount']
+			self.rdate=data['rdate']
 
 class Progress(object):
-	taskid:0
-	estimated_end_time = "0000-00-00 00:00"
+	estimated_end_time = "Not confirmed"
 	estimated_price = -1
-	confirmed = False
+
 	paid = False
 	complete = False
 
-	def __init__(self, equipid, rdate, userid):
+
+
+	def __init__(self, equipid, rdate, userid,usermemo,filename):
+		confirmed = False
 		self.equipid = equipid
 		self.rdate = rdate
 		self.userid = userid
+		self.usermemo=usermemo
+		self.filename=filename
+
 
 		# 클래스 생성시 equip rdate id 입력하면 taskid업데이트 및 초기화 진행
-		# initiate 3d printing task
+		if equipid is not "" and rdate is not "" and userid is not "":
+			col_progress = db.get_collection('progress')
+			try:
+				tot_count = col_progress.find_one(sort=[("task_id", -1)])['task_id']
+			except:
+				tot_count = 0
+			self.taskid=tot_count+1
+			col_progress.insert_one(
+				{'task_id'           : self.taskid, 'user_id': self.userid, 'equip_id':self.equipid , 'rdate':self.rdate ,'usermemo':self.usermemo,
+				 'estimated_end_time': '0000-00-00 00:00:00', 'estimated_price': -1, 'confirmed': False, 'paid': False,
+				 'complete'          : False,'filename':self.filename})
 
-		# get total count of the tasks
-		tot_count = 0
 
-		col_progress = db.get_collection('progress')
-		try:
-			tot_count = col_progress.find_one(sort=[("task_id", -1)])['task_id']
-		except:
-			tot_count = 0
-
-		col_progress.insert_one(
-			{'task_id'           : tot_count + 1, 'user_id': userid, 'equip_id':equipid , 'rdate':rdate ,
-			 'estimated_end_time': '0000-00-00 00:00:00', 'estimated_price': -1, 'confirmed': False, 'paid': False,
-			 'complete'          : False})
-
-	def generate_token(self, expiration=False):
-		s = Serializer(current_app.config['SECRET_KEY'], expiration)
-		return s.dumps({'confirm': self.equipid}).decode('utf-8')
-	def confirm(self):
-		pass  # input data by admin and change confirm status mail to user
 
 	def complete(self):
-		pass  # 예상 작업시간 중간중간에 도달하면 mail to user and Admin
+		self.complete=True
+		collection = db.get_collection('progress')
+		collection.update_one({'taskid': self.taskid}, {'$set': {'complete': self.complete}})# 예상 작업시간 중간중간에 도달하면 mail to user and Admin
+
 
 	def to_dict(self):
-		dict_user = {
-				'taskid'       : self.totcount+1,
+		dict_progress = {
+				'taskid'       : self.taskid,
 				'userid'     : self.userid,
 				'equipid'        : self.equipid,
 			### 20191112
 				'rdate'      : self.rdate,
+			'usermemo':self.usermemo,
 			'estimated_end_time'  :self.estimated_end_time,
 			####
 				'estimated_price': self.estimated_price,
 				'confirmed'    : self.confirmed,
 			### 20191122
 				'paid' : self.paid,
-				'complete'    : self.complete
+				'complete'    : self.complete,
+				'filename':self.filename
 		}
-		return dict_user
+		return dict_progress
 
 	def from_dict(self, data):
 		if data is not None:
-			self.taskid = data['taskid']
-			self.userid = data['userid']
-			self.equipid = data['equipid']
+			self.taskid = data['task_id']
+			self.userid = data['user_id']
+			self.equipid = data['equip_id']
 			### 20191112
 			self.rdate = data['rdate']
+			self.usermemo=data['usermemo']
 			###
 			self.estimated_end_time = data['estimated_end_time']
 			self.estimated_price = data['estimated_price']
@@ -96,7 +128,7 @@ class Progress(object):
 			self.confirmed = data['confirmed']
 			self.paid = data['paid']
 			self.complete=data['complete']
-			
+			self.filename=data['filename']
 class User(UserMixin, object):
 	id = ""
 	username = "cbchoi"

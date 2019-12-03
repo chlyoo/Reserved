@@ -1,8 +1,9 @@
-Dear Admin,
+Dear Admin.
 
-{{ user.username }} has reserved the {{ equip.equipname}}
+{{ progress.userid }} has reserved the use of {{ progress.equipid}} on {{progress.rdate}}.
 To confirm the reservation of the  user please click on the following link:
-{{ url_for('reserve.confirm', token=token, _external=True) }}
+{{ url_for('manage.confirm', token=token, _external=True) }}
+
 
 Sincerely,
 The Reserved Team

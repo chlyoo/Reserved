@@ -1,0 +1,29 @@
+{% block page_content %}
+
+
+<h1>All Progresses</h1>
+    <body>
+<table border="1">
+<tr>
+    <th>Task No.</th>
+    <th>Userid</th>
+    <th>Equipid</th>
+    <th>Rdate</th>
+    <th>Estimated End Time</th>
+    <th>Estimated Price</th>
+    <th>Date of Reservation</th>
+    <th>Confirmed</th>
+    <th>Paid</th>
+    <th>Complete</th>
+    <th>filename</th>
+          </tr>
+    {% for progress in progress_list %}
+        <tr></tr>
+        {% for specific in progress %}
+        <td>{{ specific }}</td>
+    {% endfor %}
+    {% endfor %}
+</table>
+</body>
+
+{% endblock %}

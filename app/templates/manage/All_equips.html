@@ -1,0 +1,23 @@
+{% block page_content %}
+<h1>All Equips</h1>
+    <body>
+<table border="1">
+<tr>
+    <th>No</th>
+    <th>Equipid</th>
+    <th>equipname</th>
+    <th>spec</th>
+    <th>usingcount</th>
+    <th>rdate</th>
+</tr>
+    {% for id,equip in enumerate(equip_list) %}
+        <tr></tr>
+        <td>{{ id }}</td>
+        {% for specific in equip %}
+        <td>{{ specific }}</td>
+    {% endfor %}
+    {% endfor %}
+</table>
+</body>
+
+{% endblock %}

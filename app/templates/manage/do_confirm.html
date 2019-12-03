@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Reserved - Reserve Manage{% endblock %}
+
+{% block page_content %}
+
+    <h1>Reserve</h1>
+<p>
+<table border="1">
+<tr>
+    <td>Progress ID</td>
+    <td>Equip name</td>
+    <td>Date of Reservation</td>
+    <td>Workfile</td>
+    <td>UserMemo</td>
+    <td>Note</td>
+          </tr>
+    <tr>
+    <td>{{ progress.taskid }}</td>
+    <td>{{ progress.equipid }}</td>
+    <td>{{ progress.rdate }}</td>
+    <td>{{ progress.filename }}</td>
+        <td>{{ progress.usermemo }}</td>
+    <td><a href="/reserve/workspace/{{progress.filename}}"> click to download</a></td>
+    </tr>
+</table>
+{{ wtf.quick_form(form)}}</div>
+
+
+{% endblock %}

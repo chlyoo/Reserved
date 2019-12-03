@@ -17,7 +17,8 @@ db = conn.get_database('Reserved')
 from gridfs import GridFS
 from gridfs.errors import NoFile
 
-fs = GridFS(db)
+fsresource = GridFS(db)
+fsworkfile=GridFS(db)
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -37,12 +38,16 @@ def create_app(config_name):
     # attach routs and custom error pages here
 	from .main import main as main_blueprint
 	app.register_blueprint(main_blueprint)
+
 	from .auth import auth as auth_blueprint
 	app.register_blueprint(auth_blueprint, url_prefix="/auth")
+
 	from .reserve import reserve as reserve_blueprint
-	app.register_blueprint(reserve_blueprint,url_prefix="/reserve")
+	app.register_blueprint(reserve_blueprint, url_prefix="/reserve")
+
 	from .manage import manage as manage_blueprint
 	app.register_blueprint(manage_blueprint, url_prefix="/manage")
+
 	from .mypage import mypage as mypage_blueprint
 	app.register_blueprint(mypage_blueprint, url_prefix="/mypage")
 	

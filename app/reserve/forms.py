@@ -1,14 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import  SubmitField, StringField, SelectField
-from wtforms.validators import DataRequired, Length, Regexp, EqualTo, Optional
+from wtforms import  SubmitField, StringField, SelectField, DateTimeField, DateField
+from wtforms.validators import Required, Length, Regexp, EqualTo, Optional
 from datetime import datetime
 from wtforms import ValidationError
 from .. import db
 from wtforms import FileField
 
 class EquipListForm(FlaskForm):
-    equip = SelectField('Equip')
-    submit = SubmitField('Select')
+    equip = SelectField('Equip',validators=[Required()])
+    select = SubmitField('Select')
     def __init__(self, *args, **kwargs):
         super(EquipListForm, self).__init__(*args, **kwargs)
         collection = db.get_collection('equip')
@@ -19,15 +19,21 @@ class EquipListForm(FlaskForm):
 
 
 class SetRdateForm(FlaskForm):
-    rdate = SelectField('Time',validators=[Optional()])
+    rdate = SelectField('Time')
     usermemo = StringField("Leave a memo here:")
-    file = FileField('Upload a 3D printing file', validators=[DataRequired()])
+    file = FileField('Upload a 3D printing file', validators=[Required()])
     submit = SubmitField('Reserve')
     def __init__(self, equipid, *args, **kwargs):
         super(SetRdateForm, self).__init__(*args, **kwargs)
         collection = db.get_collection('equip')
-        results = collection.find_one({'equipid': equipid})
-        lst={}
-        lst=results['rdate']
+        results = collection.find_one({'equipid': str(equipid)})
+        lst=results.pop('rdate')
         choices=[(key, key) for key in lst.keys() if lst[key]==0]
         self.rdate.choices=choices
+""" def validate_rdate(self,field):
+        pass
+    def validate_usermemo(self,field):
+        pass
+      def validate_equip(self,field):
+    pass
+"""

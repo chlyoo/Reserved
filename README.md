@@ -71,13 +71,23 @@ confirmed=false -> True으로 update -> submit 버튼을 누르면
  
   
   <tr>
-    <td><b>manage</b> </td>
+    <tr>
+    <td><b>manage</b></td>
+    <td>confirm</td>
+    <td>(task_id)</td>
+    <td></td>
+    <td></td>
+    <td>input estimated price, time, values</td>
+  </tr>
+  <tr>
+    <td></td>
     <td>equip</td>
     <td></td>
     <td></td>
     <td></td>
     <td></td>
   </tr>
+  
  <tr>
     <td></td>
     <td>user</td>
@@ -96,25 +106,19 @@ confirmed=false -> True으로 update -> submit 버튼을 누르면
   </tr>
  <tr>
     <td><b>reserve</b></td>
-    <td>request</td>
+    <td>/</td>
     <td></td>
-    <td></td>
+    <td>reserve_selectequip.html
+    resrve_main.html
+    </td>
     <td></td>
     <td>send email</td>
   </tr>
    <tr>
     <td></td>
-    <td>check</td>
     <td></td>
     <td></td>
     <td></td>
-    <td>input estimated price, time, values</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>confirm</td>
-    <td>(task_id)</td>
     <td></td>
     <td></td>
-    <td>complete</td>
   </tr>

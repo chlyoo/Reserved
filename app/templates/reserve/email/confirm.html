@@ -1,11 +1,12 @@
 <p>Dear Admin,</p>
 
-<p>{{ user.username }}, has as reserved the {{ equip.equipname}}</p>
-<p>To confirm the reservation of the user please<a href="{{ url_for('reserve.workfile', token=token, _external=True) }}">click here</a>.</p>
+<p>{{ progress.userid }}, has reserved the use of <b>{{ progress.equipid}}</b> on {{ progress.rdate }}.</p>
+<p>To confirm the reservation of the user please<a href="{{ url_for('manage.confirm', token=token, _external=True) }}">click here</a>.</p>
 <p>Alternatively, you can paste the following link in your browser's address bar:</p>
-<p>{{ url_for('reserve.workfile', token=token, _external=True) }}</p>
-<p/>
+<p>{{ url_for('manage.confirm', token=token, _external=True) }}</p>
+
+<br>
 <p>Sincerely,</p>
 <p>The Reserved Team</p>
-<p/>
+<br>
 <p><small>Note: replies to this email address are not monitored.</small></p>

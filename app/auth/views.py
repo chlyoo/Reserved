@@ -50,7 +50,7 @@ def register():
 		###
 	return render_template('auth/register.html', form=form)
 
-	from flask_login import current_user
+from flask_login import current_user
 
 @auth.route('/confirm/<token>') 
 @login_required 
@@ -80,12 +80,12 @@ def unconfirmed():
 @login_required
 def resend_confirmation():
 	token = current_user.generate_confirmation_token()
-	send_email('auth/email/confirm','Confirm Your Account', user, token=token)
+	send_email(current_user.id,'Confirm Your Account','auth/email/confirm', user=current_user, token=token)
 	flash('A new confirmation email has been sent to you by email.')
 	return redirect(url_for('main.index'))
 
 
-@auth.route('/mypage')
+"""@auth.route('/mypage')
 @login_required 
 #이곳에 예약한 장비의 목록과 현황을 보여주기
 def mypage(token):
@@ -95,4 +95,4 @@ def mypage(token):
 		flash('You have confirmed your account. Thanks!')
 	else:
 		flash('The confirmation link is invalid or has expired.')
-	return redirect(url_for('main.index'))
+	return redirect(url_for('main.index'))"""

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Reserved - Manage Resource{% endblock %}
+
+{% block page_content %}
+
+<body>
+{% include "manage/All_progress.html" %}
+{% include "manage/All_equips.html" %}
+<div>
+    <h1>Manage as you want</h1>
+    <a href="{{  url_for('manage.register_equip') }}"><h3>Register equips</h3></a>
+    <a href="{{  url_for('manage.modify_equip') }}"><h3>Modify equips</h3></a>
+</div>
+
+
+    </body>
+{% endblock %}

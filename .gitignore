@@ -260,3 +260,5 @@ modules.xml
 # Pyre type checker
 
 # End of https://www.gitignore.io/api/linux,flask,python,pycharm+all
+#google drive stream
+desktop.ini

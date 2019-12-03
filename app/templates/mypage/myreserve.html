@@ -1,14 +1,25 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Reserved - Mypage {% endblock %}
+
+{% block title %}Reserved - Mypage{% endblock %}
+
 {% block page_content %}
 <div class="page-header">
-    <h1>
-        안녕하십니까, {{ progress.user_id }}!
-    </h1>
-    <h3>예약한 장비 목록을 확인합니다.</h3>
-    <p>
-        {{ progress.user_id }}사용자가 예약한 장비</p>
+    <h1>Mypage</h1>
 </div>
-    {% endblock %}
+    <table border="1";>
+    <tr  align="center" cellpadding=2 cellspacing=2>
+        <th>No</th>
+        {% for items in template %}
+        <th>{{ items }}</th>
+    {% endfor %}
+    </tr>
+<tr  align="center">
+    <td>1</td>
+   {% for items in lst %}
+        <td>{{ items }}</td>
+	{% endfor %}
+{% endblock %}
 
+</tr>
+</table>
