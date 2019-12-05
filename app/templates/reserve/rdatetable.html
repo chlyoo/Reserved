@@ -5,7 +5,7 @@
         {% endfor %}
     {% for hour in range(09,21,1) %}
         {% for min in ["00","30"]%}
-            <tr><td>{{ hour }}:{{min }}</td> <td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td>
+            <tr><td><a href ="{% url_for('') %} }}{{ hour }}:{{min }}</td> <td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td>
         {% endfor %}
     {% endfor %}
         </tr>

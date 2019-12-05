@@ -84,14 +84,4 @@ def for_admins_only():
 def for_moderators_only():
 	return "For comment moderators!"
 
-'''
-@main.route('/reserve')
-@login_required
-def reserve_equip():
-	collection = db.get_collection('users')
-	result = collection.find_one({'id': id})
-	if result != None:
-		user = User(id, "", "", "")
-		user.from_dict(result)
-'''
 

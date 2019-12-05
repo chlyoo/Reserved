@@ -26,12 +26,8 @@ def select_equip():
         user.from_dict(result)
         if form.validate_on_submit():
             return redirect(url_for('reserve.set_rdate', equipid=form.equip.data))
-
-        return render_template('reserve/reserve_selectequip.html', equip_lst=[name for equipid,name in form.equip.choices],
-                               file_lst=[url_for('manage.equipimage', filename=file) for file in fsresource.list()],
-                               form=form, name=session.get('name'),
-                               known=session.get('known', False),
-                               current_time=datetime.utcnow())
+        return render_template('reserve/reserve_selectequip.html', lst=[url_for('manage.equipimage', filename=file) for file in fsresource.list()] ,
+                               form=form)
 
 @reserve.route('/<equipid>',methods=['GET','POST'])
 @login_required

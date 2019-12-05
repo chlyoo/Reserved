@@ -12,12 +12,16 @@ from .forms import EditProfileForm
 @login_required
 def show_reservation():
 	collection = db.get_collection('progress')
-	results = collection.find_one({'user_id':current_user.id},sort=[("task_id",-1)])
-
-	reservation_form=results.keys()
-	reservation_value=results.values()
-	# #아래처럼 render template에 list반환
-	return render_template('mypage/myreserve.html', template=reservation_form, lst=reservation_value)
+	result = collection.find_one({'user_id': current_user.id})
+	if result != None:
+		collection = db.get_collection('progress')
+		results = collection.find_one({'user_id':current_user.id},sort=[("task_id",-1)])
+		reservation_form=results.keys()
+		reservation_value=results.values()
+		# #아래처럼 render template에 list반환
+		return render_template('mypage/myreserve.html', template=reservation_form, lst=reservation_value)
+	else:
+		return render_template('mypage/noreservation.html')
 #return render_template('mypage/myreserve.html',
 	#progress = Progress(form1.equip.data, form2.rdate.data, current_user.id)
 """
@@ -31,8 +35,7 @@ def show_images():
 def edit_profile():
 	form = EditProfileForm()
 	if form.validate_on_submit():
-		current_user.username = form.username.data	
-		
+		current_user.username = form.username.data
 		# db update
 		collection = db.get_collection('users')
 		collection.delete_one({'id':current_user.id})

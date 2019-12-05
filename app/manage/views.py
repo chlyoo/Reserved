@@ -18,17 +18,14 @@ from datetime import datetime
 def main():
 	collection = db.get_collection('progress')
 	results = collection.find()
-	p_lst = [(result['task_id'], result['user_id'], result['equip_id'], result['rdate'], result['usermemo'],
-			  result['estimated_end_time'], result['estimated_price'], result['confirmed'], result['paid'],
-			  result['complete'], result['filename']) for result in results]
-	collection = db.get_collection('equip')
-	results = collection.find()
-	e_lst = [e for e in enumerate([(result['equipid'], result['equipname'], result['spec'], result['usingcount'], result['rdate']) for result in results])]
-	workfile_lst = [url_for('manage.equipimage', filename=file) for file in fsresource.list()]
-	resourcefile_lst = [url_for('reserve.workfile', filename=file) for file in fsworkfile.list()]
-	e_lst.append(resourcefile_lst)
-	p_lst.append(workfile_lst)
-	return render_template('manage/main.html', progress_list=p_lst, equip_list=e_lst)
+	if results!=None:
+		p_lst = [(result['task_id'], result['user_id'], result['equip_id'], result['rdate'], result['usermemo'],
+				  result['estimated_end_time'], result['estimated_price'], result['confirmed'], result['paid'],
+				  result['complete'], result['filename']) for result in results]
+		collection = db.get_collection('equip')
+		results = collection.find()
+		e_lst = [e for e in enumerate([(result['equipid'], result['equipname'], result['spec'], result['usingcount'], result['rdate'], result['filename']) for result in results])]
+		return render_template('manage/main.html', progress_list=p_lst, equip_list=e_lst)
 
 
 @manage.route('/confirm/<token>', methods=['GET', 'POST'])
@@ -68,12 +65,13 @@ def register_equip():
 	form = EquipRegisterForm()
 	if form.validate_on_submit():
 		equip = Equip(form.Equipid.data, form.Equipname.data, form.Equipspec.data)  # rdate intialize as well
-		collection = db.get_collection('equip')
-		collection.insert(equip.to_dict())
 		filename = secure_filename(form.equipImagefile.data.filename)
 		oid = fsresource.put(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
 							 filename=filename)
-		flash("updated")
+		equip.filename=filename
+		collection = db.get_collection('equip')
+		collection.insert(equip.to_dict())
+		flash("Registered")
 		return redirect(url_for('manage.main'))
 	return render_template('manage/register_equip.html', form=form)
 

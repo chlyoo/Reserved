@@ -7,7 +7,7 @@
 <div class="" col-md-4 xmlns:onchange="http://www.w3.org/1999/xhtml"/>
 
     <h1>Reserve</h1>
-<input class="btn btn-default" id="Back" name="Back" type="button" onclick="{{ url_for('reserve.select_equip') }}" value="Back" style="color:red">
+<input class="btn btn-default" id="Back" name="Back" type="button" onclick="location.href='/reserve'" value="Back" style="red">
     </div>
     <div> {{ wtf.quick_form(form)}}</div>
       <br>
@@ -15,6 +15,5 @@
 
 
 <div>
-	{% include "reserve/rdatetable.html" %}
 </div>
 {% endblock %}

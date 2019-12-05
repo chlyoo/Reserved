@@ -7,12 +7,21 @@
 <div class="page-header">
 
     <h1>Reserve</h1>
-    {% for equip in equip_lst %}
-	  <li> {{ equip }} </li>
-	  {% endfor %}
-{{ wtf.quick_form(form) }}
+<table>
 
-    <br>
+{%  for i in lst %}
+    <tr>
+    <td><img src="{{i}}" width="200" height ="200"></td>
+    </tr>
+    {% endfor %}
+
+<tr>
+{% for id,equipname in form.equip.choices %}
+<td>{{ equipname }} </td>
+    {% endfor %}
+</tr>
+</table>
+{{ wtf.quick_form(form) }}
 
 {{ form.submit }}
 
