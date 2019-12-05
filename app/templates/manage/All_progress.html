@@ -9,8 +9,8 @@
     <th>Userid</th>
     <th>Equipid</th>
     <th>Rdate</th>
-    <th>Estimated End Time</th>
     <th>Estimated Price</th>
+    <th>Estimated End Time</th>
     <th>Date of Reservation</th>
     <th>Confirmed</th>
     <th>Paid</th>
@@ -23,6 +23,10 @@
         <td>{{ specific }}</td>
     {% endfor %}
     {% endfor %}
+
+{% for file in workfile_lst %}
+    <td><a href="{{ file }}"> click to download</a></td>
+	{% endfor %}
 </table>
 </body>
 

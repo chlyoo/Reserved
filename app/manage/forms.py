@@ -12,3 +12,11 @@ class ConfirmForm(FlaskForm):
     Confirm=SubmitField('Confirm')
     #def validate_EstimatedPrice:
      #   validators=Regexp
+class EquipRegisterForm(FlaskForm):
+    Equipid=StringField("Input Equip id")
+    Equipname=StringField("Input Equip name")
+    Equipspec=StringField("Input equip spec")
+    equipImagefile = FileField('Register Equip image here', validators=[DataRequired()])
+    Register=SubmitField('Register')
+
+

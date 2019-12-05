@@ -9,14 +9,18 @@
     <th>spec</th>
     <th>usingcount</th>
     <th>rdate</th>
+    <th>equipimage</th>
 </tr>
-    {% for id,equip in enumerate(equip_list) %}
+    {% for id,equip,image in equip_list %}
         <tr></tr>
         <td>{{ id }}</td>
         {% for specific in equip %}
         <td>{{ specific }}</td>
     {% endfor %}
-    {% endfor %}
+        <td><img src="{{ image }}"></td>
+	{% endfor %}
+
+
 </table>
 </body>
 

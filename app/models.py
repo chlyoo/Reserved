@@ -1,41 +1,27 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-
 # 20191028
 from . import login_manager, db
-
+from . import TASK_COUNT
 # 20191108
 from flask import current_app, request, url_for
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer 
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 # 20191112
 from flask_login import AnonymousUserMixin
 from .email import send_email
 
 # 20191122
-from datetime import datetime
-
+from datetime import datetime, date, time
 
 class Equip(object):
-	equipid=""
-	equipname = ""
-	spec = ""
 	usingcount = 0
-	rdate = dict()
+	rdate =[]
 
-	def __init__(self, equipid):
+	def __init__(self, equipid,	equipname,spec):
 		self.equipid=equipid
-
-	def return_rdate(self):
-		collection = db.get_collection('equip')
-		results = collection.find_one({'equipid':self.equipid})
-		return results.pop('rdate')
-
-	def update_equiprdate(self,equipid,equiprdate):
-		self.rdate=equiprdate
-		self.equipid=equipid
-		self.to_dict()
-		collection=db.get_collection('equip')
-		collection.update_one({'equipid':self.equipid},{'$set':{'rdate':self.rdate}})
+		if equipname is not "" and spec is not "":
+			self.equipname=equipname
+			self.spec=spec
 
 	def to_dict(self):
 		dict_equip = {
@@ -62,8 +48,6 @@ class Progress(object):
 	paid = False
 	complete = False
 
-
-
 	def __init__(self, equipid, rdate, userid,usermemo,filename):
 		confirmed = False
 		self.equipid = equipid
@@ -72,27 +56,21 @@ class Progress(object):
 		self.usermemo=usermemo
 		self.filename=filename
 
-
 		# 클래스 생성시 equip rdate id 입력하면 taskid업데이트 및 초기화 진행
 		if equipid is not "" and rdate is not "" and userid is not "":
 			col_progress = db.get_collection('progress')
-			try:
-				tot_count = col_progress.find_one(sort=[("task_id", -1)])['task_id']
-			except:
-				tot_count = 0
-			self.taskid=tot_count+1
+			global TASK_COUNT
+			TASK_COUNT+=1
+			self.taskid=TASK_COUNT
 			col_progress.insert_one(
 				{'task_id'           : self.taskid, 'user_id': self.userid, 'equip_id':self.equipid , 'rdate':self.rdate ,'usermemo':self.usermemo,
 				 'estimated_end_time': '0000-00-00 00:00:00', 'estimated_price': -1, 'confirmed': False, 'paid': False,
 				 'complete'          : False,'filename':self.filename})
 
-
-
 	def complete(self):
 		self.complete=True
 		collection = db.get_collection('progress')
 		collection.update_one({'taskid': self.taskid}, {'$set': {'complete': self.complete}})# 예상 작업시간 중간중간에 도달하면 mail to user and Admin
-
 
 	def to_dict(self):
 		dict_progress = {

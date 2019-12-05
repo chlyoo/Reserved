@@ -1,0 +1,20 @@
+{% block page_content %}
+    <table border="1">
+    {% for day in calendar.day_name %}
+        <td>{{ day }}</td>
+        {% endfor %}
+    {% for hour in range(09,21,1) %}
+        {% for min in ["00","30"]%}
+            <tr><td>{{ hour }}:{{min }}</td> <td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td>
+        {% endfor %}
+    {% endfor %}
+        </tr>
+
+{% endblock %}
+</table>
+<!--
+(weekno, date(sun=0, mon=1),
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0]
+-->

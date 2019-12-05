@@ -7,16 +7,14 @@
 <div class="" col-md-4 xmlns:onchange="http://www.w3.org/1999/xhtml"/>
 
     <h1>Reserve</h1>
-</div>
-    <div><a href="{{ url_for('reserve.select_equip') }}">equip</a></div>
+<input class="btn btn-default" id="Back" name="Back" type="button" onclick="{{ url_for('reserve.select_equip') }}" value="Back" style="color:red">
+    </div>
     <div> {{ wtf.quick_form(form)}}</div>
       <br>
 <div>    </div>
 
 
 <div>
-	{% for file in file_lst %}
-		<file src="{{ file }}">
-	{% endfor %}
+	{% include "reserve/rdatetable.html" %}
 </div>
 {% endblock %}
