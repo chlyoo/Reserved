@@ -1,28 +1,36 @@
-@main.route('/', methods=['GET', 'POST'])
-def index():
-    form = SearchitemForm()
-    if form.validate_on_submit():
-        old_name = session.get('name')
-        if old_name is not None and old_name != form.name.data:
-            flash('Looks like you have changed your name!')
-        session['name'] = form.name.data
-        form.name.data = ''
+from datetime import datetime, timedelta, time
+import calendar
+"""
+rdate=[0 for i in range(26)]
 
-        '''
-        {file:url_for(main.image', filename=file) for file in fs.list()}
-        '''
-        return redirect(url_for('.index'))
+for day in range(7):
+    print("dat")
+    for hour in range(9,21,1):
+        for min in range(2):
+            print(str(hour).zfill(2)+":"+str(30*min).zfill(2))
 
-    collection = db.get_collection('users')
-    results = collection.find({'user':current_user.id})
-    collection = db.get_collection('items')
-    collection.update({}, {'$set': {'participation': 'no'}})
-    if results != None:
-        collection.update_one({'participation_uid': current_user.id}, {'$set': {'participation': 'yes'}})
 
-    return render_template('index.html',
-                           item_list=[i for i in db.get_collection('items').find()],
-                           file_lst={file: url_for('main.image', filename=file) for file in fs.list()},
-                           form=form, name=session.get('name'),
-                           known=session.get('known', False),
-                           current_time=datetime.utcnow())
+i= calendar.calendar(datetime.now().year)
+print(i)
+
+
+for hour in range(9,21,1):
+    for min in ["00","30"]:
+        print(datetime(datetime.today().year,12,1,hour,int(min)))
+
+datetime.today().date()-timedelta(days=datetime.today().isocalendar()[2+1])#mon
+datetime.today().date()-timedelta(days=datetime.today().isocalendar()[2+2])#mon
+datetime.today().date()-timedelta(days=datetime.today().isocalendar()[2+3])#mon
+datetime.today().date()-timedelta(days=datetime.today().isocalendar()[2+4])#mon
+datetime.today().date()-timedelta(days=datetime.today().isocalendar()[2+5])#mon
+datetime.today().date()-timedelta(days=datetime.today().isocalendar()[2+6])#mon
+datetime.today().date()-timedelta(days=datetime.today().isocalendar()[2+7])#mon
+"""
+d=datetime.today()
+print(d.date()-timedelta(days=d.isocalendar()[2]))
+
+print(datetime.today().isocalendar()[1]) #week no
+print(datetime.today().isocalendar()[2]) # view start of week
+#print(datetime.date(datetime.today()).timedelta-datetime.(3))
+
+print(datetime.strptime("2019-12-04 16:00:00","%Y-%m-%d %H:%M:%S"))

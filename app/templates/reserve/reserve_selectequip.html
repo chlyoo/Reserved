@@ -8,13 +8,11 @@
 
     <h1>Reserve</h1>
 <table>
-
-{%  for i in lst %}
     <tr>
+{%  for i in lst %}
     <td><img src="{{i}}" width="200" height ="200"></td>
-    </tr>
     {% endfor %}
-
+ </tr>
 <tr>
 {% for id,equipname in form.equip.choices %}
 <td>{{ equipname }} </td>

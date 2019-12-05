@@ -27,9 +27,12 @@ class Equip(object):
 			self.equipname=equipname
 			self.spec=spec
 			self.rdate={}
+			"""
 			for h in range(8,21,1):
 				for m in range(0,50,10):
 					self.rdate[str(datetime.combine(date.today(),time(h,m)))]=0
+			"""
+
 	def return_rdate(self):
 		collection = db.get_collection('equip')
 		results = collection.find_one({'equipid':self.equipid})

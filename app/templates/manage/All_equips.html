@@ -1,8 +1,9 @@
 {% block page_content %}
-<h1>All Equips</h1>
+<h3>All Equips</h3>
     <body>
 <table border="1">
-<tr>
+{% if lene !=0 %}
+    <tr>
     <th>No</th>
     <th>Equipid</th>
     <th>equipname</th>
@@ -11,6 +12,7 @@
     <th>rdate</th>
     <th>equipimage</th>
 </tr>
+{% endif %}
     {% for id,equip in equip_list %}
         <tr></tr>
         <td>{{ id }}</td>

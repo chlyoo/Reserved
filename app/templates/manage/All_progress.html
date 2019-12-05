@@ -1,9 +1,10 @@
 {% block page_content %}
 
 
-<h1>All Progresses</h1>
+<h3>All Progresses</h3>
     <body>
 <table border="1">
+{% if lenp !=0 %}
 <tr>
     <th>Task No.</th>
     <th>Userid</th>
@@ -17,6 +18,7 @@
     <th>Complete</th>
     <th>filename</th>
           </tr>
+{% endif %}
     {% for progress in progress_list %}
         <tr></tr>
         {% for specific in progress %}

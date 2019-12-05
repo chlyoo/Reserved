@@ -1,20 +1,77 @@
+{% extends "base.html" %}
 {% block page_content %}
-    <table border="1">
+    <div >
+    {% if d.date()> datetime.now().date() %}
+    <input class="btn btn-xs" type="button" id="submit" value="previous week" onclick="location.href='{{url_for('reserve.tableprevious',equipid=equipid,d=d)}}';">
+   {% else %}
+    <input class="btn btn-xs" type="button" id="submit" value="next week" onclick="location.href='{{url_for('reserve.tablenext',equipid=equipid,d=d)}}';">
+          {% endif %}
+    </div>
+
+    <table border="1" style="text-align:center;">
     {% for day in calendar.day_name %}
         <td>{{ day }}</td>
         {% endfor %}
     {% for hour in range(09,21,1) %}
         {% for min in ["00","30"]%}
-            <tr><td><a href ="{% url_for('') %} }}{{ hour }}:{{min }}</td> <td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td><td>{{ hour }}:{{min }}</td>
+            <tr>
+            <td>
+            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-0),time(hour|int,min|int)) not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {%  endif %}
+            {{ hour }}:{{min }}</a></td>
+            <td>
+            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-1),time(hour|int,min|int)) not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {%  endif %}
+            {{ hour }}:{{min }}</a></td>
+            <td>
+            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-2),time(hour|int,min|int)) not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {%  endif %}
+            {{ hour }}:{{min }}</a></td>
+            <td>
+            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-3),time(hour|int,min|int)) not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {%  endif %}
+            {{ hour }}:{{min }}</a></td>
+            <td>
+            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-4),time(hour|int,min|int)) not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {%  endif %}
+            {{ hour }}:{{min }}</a></td>
+            <td>
+            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-5),time(hour|int,min|int)) not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {%  endif %}
+            {{ hour }}:{{min }}</a></td>
+            <td>
+            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)) not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {%  endif %}
+            {{ hour }}:{{min }}</a></td>
         {% endfor %}
     {% endfor %}
         </tr>
 
-{% endblock %}
+
+
 </table>
+        <div align>
+    <input class="btn btn-xs" type="button" id="submit" value="previous page" onclick="location.href='{{url_for('reserve.select_equip',equipid=equipid)}}';">
+    </div>
+{% endblock %}
 <!--
 (weekno, date(sun=0, mon=1),
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0]
 -->
+datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]),time(hour,min))
+d.date()-timedelta(days=d.isocalendar()[2])#mon
+d.date()-timedelta(days=d.isocalendar()[2]+1)
+d.date()-timedelta(days=d.isocalendar()[2]+2)
+d.date()-timedelta(days=d.isocalendar()[2]+3)
+d.date()-timedelta(days=d.isocalendar()[2]+4)
+d.date()-timedelta(days=d.isocalendar()[2]+5)
+d.date()-timedelta(days=d.isocalendar()[2]+6)#sun

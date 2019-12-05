@@ -25,7 +25,7 @@ def main():
 		collection = db.get_collection('equip')
 		results = collection.find()
 		e_lst = [e for e in enumerate([(result['equipid'], result['equipname'], result['spec'], result['usingcount'], result['rdate'], result['filename']) for result in results])]
-		return render_template('manage/main.html', progress_list=p_lst, equip_list=e_lst)
+		return render_template('manage/main.html', progress_list=p_lst, equip_list=e_lst, lene=len(e_lst), lenp=len(p_lst))
 
 
 @manage.route('/confirm/<token>', methods=['GET', 'POST'])
@@ -48,7 +48,9 @@ def confirm(token):  # 관리자가 메일을 통해서 접속하는 페이지
 			collection.update_one({"task_id": int(token)}, {
 				"$set": {'confirmed': True, "estimated_end_time": pr.estimated_end_time,
 						 "estimated_price": pr.estimated_price}})
-			print(pr.confirmed)
+			collection=db.get_collection('equip')
+			usingcount=collection.find_one({'equipid':pr.equipid})["usingcount"]+1
+			collection.update_one({'equipid':pr.equipid},{"$set":{"usingcount":usingcount}})
 			if pr.confirmed:
 				flash("The progress has been confirmed")
 				send_email(pr.userid, "Reservation Confirmed", 'manage/mail/confirm_complete', progress=pr)
