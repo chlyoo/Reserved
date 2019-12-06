@@ -1,7 +1,7 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, login_required, logout_user
 from ..models import Progress, Equip
-from .forms import ConfirmForm, EquipRegisterForm
+from .forms import ConfirmForm, EquipRegisterForm, EquipDeleteForm, EquipModifyForm
 from werkzeug import secure_filename
 from .. import fsresource, fsworkfile
 from flask import send_file
@@ -38,7 +38,7 @@ def confirm(token):  # 관리자가 메일을 통해서 접속하는 페이지
 	pr.from_dict(result)
 	if pr.confirmed:
 		flash("Has already been confirmed")
-		return redirect(url_for("manage.show_all_progresses"))
+		return redirect(url_for("manage.main"))
 	else:
 		form = ConfirmForm()
 		if form.validate_on_submit():
@@ -55,7 +55,7 @@ def confirm(token):  # 관리자가 메일을 통해서 접속하는 페이지
 				flash("The progress has been confirmed")
 				send_email(pr.userid, "Reservation Confirmed", 'manage/mail/confirm_complete', progress=pr)
 				flash("Sending E-mail...")
-				return redirect(url_for("manage.show_all_progresses"))
+				return redirect(url_for("manage.main"))
 
 		return render_template('manage/do_confirm.html', form=form, progress=pr)
 
@@ -66,12 +66,17 @@ def confirm(token):  # 관리자가 메일을 통해서 접속하는 페이지
 def register_equip():
 	form = EquipRegisterForm()
 	if form.validate_on_submit():
+		collection = db.get_collection('equip')
+		collection.find({'equipid':form.Equipid})
+		if result!=None:
+			flash("Already have same Equipid")
+			return redirect(url_for('mange.register_equip'))
 		equip = Equip(form.Equipid.data, form.Equipname.data, form.Equipspec.data)  # rdate intialize as well
 		filename = secure_filename(form.equipImagefile.data.filename)
 		oid = fsresource.put(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
 							 filename=filename)
 		equip.filename=filename
-		collection = db.get_collection('equip')
+
 		collection.insert(equip.to_dict())
 		flash("Registered")
 		return redirect(url_for('manage.main'))
@@ -84,7 +89,36 @@ def register_equip():
 def modify_equip():
 	# equip=Equip(equipid,equipname,spec)
 	pass
+	form=EquipModifyForm()
+	if form.validate_on_submit():
+		equip = Equip(form.Equipid.data, form.Equipname.data, form.Equipspec.data)  # rdate intialize as well
+		filename = secure_filename(form.equipImagefile.data.filename)
+		oid = fsresource.modify(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
+							 filename=filename)
+		equip.filename=filename
+		collection = db.get_collection('equip')
+		collection.delete(equip.to_dict())
+		collection.insert(equip.to_dict())
+		flash("Modified")
+		return redirect(url_for('manage.main'))
+	return render_template('manage/modify_equip.html', form=form)
 
+@manage.route('/delete', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def delete_equip():
+	form=EquipModifyForm()
+	if form.validate_on_submit():
+		equip = Equip(form.Equipid.data, form.Equipname.data, form.Equipspec.data)  # rdate intialize as well
+		filename = secure_filename(form.equipImagefile.data.filename)
+		oid = fsresource.modify(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
+							 filename=filename)
+		equip.filename=filename
+		collection = db.get_collection('equip')
+		collection.delete(equip.to_dict())
+		flash("Deleted")
+		return redirect(url_for('manage.main'))
+	return render_template('manage/delete_equip.html', form=form)
 
 @manage.route('/resource/<filename>')
 def equipimage(filename):

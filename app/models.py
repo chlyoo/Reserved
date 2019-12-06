@@ -39,11 +39,10 @@ class Equip(object):
 		return results.pop('rdate')
 
 	def update_equiprdate(self,equipid,equiprdate):
-		self.rdate=equiprdate
+		self.rdate[equiprdate]=1
 		self.equipid=equipid
-		self.to_dict()
 		collection=db.get_collection('equip')
-		collection.update_one({'equipid':self.equipid},{'$set':{'rdate':self.rdate}})
+		collection.update_one({'equipid':self.equipid},{'$set':self.to_dict()})
 
 	def to_dict(self):
 		dict_equip = {

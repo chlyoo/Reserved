@@ -25,16 +25,26 @@ class SetRdateForm(FlaskForm):
     submit = SubmitField('Reserve')
     def __init__(self, equipid,datetimeval, *args, **kwargs):
         super(SetRdateForm, self).__init__(*args, **kwargs)
+        self.equipid=equipid
         collection = db.get_collection('equip')
         results = collection.find_one({'equipid': str(equipid)})
         lst=results.pop('rdate')
-
         self.rdate.data=datetime.strptime(datetimeval,"%Y-%m-%d %H:%M:%S")
 
-""" def validate_rdate(self,field):
+    def validate_rdate(self,field):
+        collection = db.get_collection('equip')
+        results = collection.find_one({'equipid': self.equipid})
+        result = results.pop('rdate')
+        for key in result.keys():
+            if str(field.data) == key:
+
+
+                raise ValidationError('Already Reserved time.')
         pass
     def validate_usermemo(self,field):
         pass
+"""
+  
       def validate_equip(self,field):
     pass
 """

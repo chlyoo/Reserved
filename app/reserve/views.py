@@ -60,9 +60,12 @@ def set_rdate(equipid,datetimeval):
     collection = db.get_collection('equip')
     results = collection.find_one({'equipid': equipid})
     result = results.pop('rdate')
-    if form.rdate.data in result.keys():
-        flash("Already Resrved")
-        return redirect(url_for('reserve.table',equipid=equipid))
+    for key in result.keys():
+        print(key)
+        print(form.rdate.data)
+        if form.rdate.data==key:
+            flash("Already Reserved")
+            return redirect(url_for('reserve.table', equipid=equipid))
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
         oid = fsworkfile.put(form.file.data, content_type=form.file.data.content_type, filename=filename)
@@ -71,9 +74,7 @@ def set_rdate(equipid,datetimeval):
         selected_equip=Equip(equipid,"","")
         result=collection.find_one({'equipid':equipid})
         selected_equip.from_dict(result)
-        rdate=selected_equip.return_rdate() #Equip 클래스에서 rdate반환
-        rdate[datetimeval]=1# rdate 업데이트
-        selected_equip.update_equiprdate(equipid,rdate)
+        selected_equip.update_equiprdate(equipid,datetimeval)
         send_email(current_app.config['ADMIN'], 'Confirm Reservation', 'reserve/email/confirm', progress=progress, token=progress.taskid)  # admin에게 메일 보내야함
         return redirect(url_for('mypage.show_reservation', username=current_user.username))
     return render_template('reserve/reserve_main.html',equipid=equipid, form=form,calendar=calendar)
