@@ -12,12 +12,13 @@ login_manager.login_view = 'auth.login'
 import pymongo
 conn = pymongo.MongoClient('mongodb://db:27017')
 db = conn.get_database('Reserved')
+db2= conn.get_database('Work')
 
 from gridfs import GridFS
 from gridfs.errors import NoFile
 
 fsresource = GridFS(db)
-fsworkfile=GridFS(db)
+fsworkfile=GridFS(db2)
 
 bootstrap = Bootstrap()
 mail = Mail()
