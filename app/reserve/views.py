@@ -41,12 +41,18 @@ def table(equipid):
 @reserve.route('/<equipid>/<d>/nwtable',methods=['GET','POST'])
 @login_required
 def tablenext(equipid,d):
-    return render_template('reserve/rdatetable.html',equipid=equipid, datetime=datetime, calendar=calendar,d=datetime.today()+timedelta(days=7),timedelta=timedelta, time=time)
+    collection = db.get_collection('equip')
+    results = collection.find_one({'equipid': equipid})
+    result = results.pop('rdate')
+    return render_template('reserve/rdatetable.html',equipid=equipid, datetime=datetime, calendar=calendar,d=datetime.today()+timedelta(days=7),timedelta=timedelta, time=time,avoid=result)
 
 @reserve.route('/<equipid>/<d>/pwtable',methods=['GET','POST'])
 @login_required
 def tableprevious(equipid,d):
-    return render_template('reserve/rdatetable.html',equipid=equipid, datetime=datetime, calendar=calendar,d=datetime.today(),timedelta=timedelta, time=time)
+    collection = db.get_collection('equip')
+    results = collection.find_one({'equipid': equipid})
+    result = results.pop('rdate')
+    return render_template('reserve/rdatetable.html',equipid=equipid, datetime=datetime, calendar=calendar,d=datetime.today(),timedelta=timedelta, time=time,avoid=result)
 
 
 

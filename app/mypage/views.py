@@ -12,14 +12,14 @@ from .forms import EditProfileForm
 @login_required
 def show_reservation():
 	collection = db.get_collection('progress')
-	result = collection.find_one({'user_id': current_user.id})
+	result = collection.find({'user_id': current_user.id})
 	if result != None:
-		collection = db.get_collection('progress')
-		results = collection.find_one({'user_id':current_user.id},sort=[("task_id",-1)])
-		reservation_form=results.keys()
-		reservation_value=results.values()
+		results = collection.find({'user_id':current_user.id},sort=[("task_id",-1)])
+		table=[(result["equip_id"],result["usermemo"],result["rdate"],result["estimated_end_time"],result["estimated_price"],result["confirmed"],result["complete"],result["filename"]) for result in results]
+		p_lst=[e for e in enumerate(table,start=1)]
+		reservation_form=["Equipid","Memo","Rdate","estimated ending time","estimated price","Confirmed","Completed","File"]
 		# #아래처럼 render template에 list반환
-		return render_template('mypage/myreserve.html', template=reservation_form, lst=reservation_value)
+		return render_template('mypage/myreserve.html', template=reservation_form, lst=p_lst)
 	else:
 		return render_template('mypage/noreservation.html')
 #return render_template('mypage/myreserve.html',

@@ -66,7 +66,7 @@ class Equip(object):
 
 class Progress(object):
 	estimated_end_time = "Not confirmed"
-	estimated_price = -1
+	estimated_price ="Unknown"
 	paid = False
 	complete = False
 
@@ -86,7 +86,7 @@ class Progress(object):
 			col_progress=db.get_collection('progress')
 			col_progress.insert_one(
 				{'task_id'           : self.taskid, 'user_id': self.userid, 'equip_id':self.equipid , 'rdate':self.rdate ,'usermemo':self.usermemo,
-				 'estimated_end_time': '0000-00-00 00:00:00', 'estimated_price': -1, 'confirmed': False, 'paid': False,
+				 'estimated_end_time':self.estimated_end_time, 'estimated_price':self.estimated_price, 'confirmed': False, 'paid': False,
 				 'complete'          : False,'filename':self.filename})
 
 

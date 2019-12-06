@@ -15,41 +15,48 @@
     {% for hour in range(09,21,1) %}
         {% for min in ["00","30"]%}
             <tr>
-            <td>
-            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-0),time(hour|int,min|int)) not in avoid.keys() %}
-            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+               <td>
+            {% if (datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-1),time(hour|int,min|int)))|string not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-1),time(hour|int,min|int)))}}">{{ hour }}:{{min }}</a></td>
+            {% else %}
+                {{ hour }}:{{min }}</td>
             {%  endif %}
-            {{ hour }}:{{min }}</a></td>
             <td>
-            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-1),time(hour|int,min|int)) not in avoid.keys() %}
-            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {% if (datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-2),time(hour|int,min|int)))|string not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-2),time(hour|int,min|int)))}}">{{ hour }}:{{min }}</a></td>
+            {% else %}
+                {{ hour }}:{{min }}</td>
             {%  endif %}
-            {{ hour }}:{{min }}</a></td>
             <td>
-            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-2),time(hour|int,min|int)) not in avoid.keys() %}
-            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {% if (datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-3),time(hour|int,min|int)))|string not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-3),time(hour|int,min|int)))}}">{{ hour }}:{{min }}</a></td>
+            {% else %}
+                {{ hour }}:{{min }}</td>
             {%  endif %}
-            {{ hour }}:{{min }}</a></td>
             <td>
-            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-3),time(hour|int,min|int)) not in avoid.keys() %}
-            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {% if (datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-4),time(hour|int,min|int)))|string not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-4),time(hour|int,min|int)))}}">{{ hour }}:{{min }}</a></td>
+            {% else %}
+                {{ hour }}:{{min }}</td>
             {%  endif %}
-            {{ hour }}:{{min }}</a></td>
             <td>
-            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-4),time(hour|int,min|int)) not in avoid.keys() %}
-            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {% if (datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-5),time(hour|int,min|int)))|string not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-5),time(hour|int,min|int)))}}">{{ hour }}:{{min }}</a></td>
+            {% else %}
+                {{ hour }}:{{min }}</td>
             {%  endif %}
-            {{ hour }}:{{min }}</a></td>
             <td>
-            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-5),time(hour|int,min|int)) not in avoid.keys() %}
-            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {% if (datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))|string not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">{{ hour }}:{{min }}</a></td>
+            {% else %}
+                {{ hour }}:{{min }}</td>
             {%  endif %}
-            {{ hour }}:{{min }}</a></td>
             <td>
-            {% if datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)) not in avoid.keys() %}
-            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-6),time(hour|int,min|int)))}}">
+            {% if (datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-7),time(hour|int,min|int)))|string not in avoid.keys() %}
+            <a href ="{{ url_for('reserve.set_rdate',equipid=equipid,datetimeval=datetime.combine(d.date()-timedelta(days=d.isocalendar()[2]-7),time(hour|int,min|int)))}}">{{ hour }}:{{min }}</a></td>
+            {% else %}
+                {{ hour }}:{{min }}</td>
             {%  endif %}
-            {{ hour }}:{{min }}</a></td>
         {% endfor %}
     {% endfor %}
         </tr>

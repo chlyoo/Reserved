@@ -5,21 +5,30 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Mypage</h1>
+    <h3>Mypage</h3>
 </div>
-    <table border="1";>
+    <div>
+    <table align="left" border="1";>
     <tr  align="center" cellpadding=2 cellspacing=2>
         <th>No</th>
         {% for items in template %}
+            {% if items|string =="Memo" %}
+            <th width="20%">{{ items }}</th>
+            {% else %}
         <th>{{ items }}</th>
+            {% endif %}
     {% endfor %}
     </tr>
-<tr  align="center">
-    <td>1</td>
-   {% for items in lst %}
-        <td>{{ items }}</td>
+   {% for id,items in lst %}
+       <tr>
+       <td>{{ id }}</td>
+       {% for item in items %}
+
+       <td>{{ item }}</td>
+           {% endfor %}
+       </tr>
 	{% endfor %}
+</table>
+    </div>
 {% endblock %}
 
-</tr>
-</table>

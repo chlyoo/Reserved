@@ -24,7 +24,7 @@ def main():
 				  result['complete'], result['filename']) for result in results]
 		collection = db.get_collection('equip')
 		results = collection.find()
-		e_lst = [e for e in enumerate([(result['equipid'], result['equipname'], result['spec'], result['usingcount'], result['rdate'], result['filename']) for result in results])]
+		e_lst = [e for e in enumerate([(result['equipid'], result['equipname'], result['spec'], result['usingcount'], result['rdate'], result['filename']) for result in results],start=1)]
 		return render_template('manage/main.html', progress_list=p_lst, equip_list=e_lst, lene=len(e_lst), lenp=len(p_lst))
 
 
@@ -67,10 +67,10 @@ def register_equip():
 	form = EquipRegisterForm()
 	if form.validate_on_submit():
 		collection = db.get_collection('equip')
-		collection.find({'equipid':form.Equipid})
+		result =collection.find_one({'equipid':form.Equipid.data})
 		if result!=None:
 			flash("Already have same Equipid")
-			return redirect(url_for('mange.register_equip'))
+			return redirect(url_for('manage.register_equip'))
 		equip = Equip(form.Equipid.data, form.Equipname.data, form.Equipspec.data)  # rdate intialize as well
 		filename = secure_filename(form.equipImagefile.data.filename)
 		oid = fsresource.put(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
@@ -93,11 +93,12 @@ def modify_equip():
 	if form.validate_on_submit():
 		equip = Equip(form.Equipid.data, form.Equipname.data, form.Equipspec.data)  # rdate intialize as well
 		filename = secure_filename(form.equipImagefile.data.filename)
-		oid = fsresource.modify(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
+		oid = fsresource.put(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
 							 filename=filename)
 		equip.filename=filename
 		collection = db.get_collection('equip')
-		collection.delete(equip.to_dict())
+		collection.remove({'equipid': form.equip.data})
+		collection.remove(equip.to_dict())
 		collection.insert(equip.to_dict())
 		flash("Modified")
 		return redirect(url_for('manage.main'))
@@ -107,15 +108,11 @@ def modify_equip():
 @login_required
 @admin_required
 def delete_equip():
-	form=EquipModifyForm()
+	form=EquipDeleteForm()
 	if form.validate_on_submit():
-		equip = Equip(form.Equipid.data, form.Equipname.data, form.Equipspec.data)  # rdate intialize as well
-		filename = secure_filename(form.equipImagefile.data.filename)
-		oid = fsresource.modify(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
-							 filename=filename)
-		equip.filename=filename
 		collection = db.get_collection('equip')
-		collection.delete(equip.to_dict())
+		collection.remove({'equipid':form.equip.data})
+#Have to remove file also
 		flash("Deleted")
 		return redirect(url_for('manage.main'))
 	return render_template('manage/delete_equip.html', form=form)

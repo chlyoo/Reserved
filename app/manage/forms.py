@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import  SubmitField, StringField, SelectField,DateTimeField, IntegerField
-from wtforms.validators import DataRequired, Length, Regexp, EqualTo, Optional
+from wtforms.validators import DataRequired, Length, Regexp, EqualTo, Optional, Required
 from datetime import datetime
 from wtforms import ValidationError
 from .. import db
@@ -13,23 +13,58 @@ class ConfirmForm(FlaskForm):
     #def validate_EstimatedPrice:
      #   validators=Regexp
 class EquipRegisterForm(FlaskForm):
-    Equipid=StringField("Input Equip id")
-    Equipname=StringField("Input Equip name")
+    Equipid = StringField("Input Equip id", validators=[Required()])
+    Equipname = StringField("Input Equip name", validators=[Required()])
     Equipspec=StringField("Input equip spec")
     equipImagefile = FileField('Register Equip image here', validators=[DataRequired()])
     Register=SubmitField('Register')
+    def validate_Equipid(self,field):
+        collection = db.get_collection('equip')
+        results = collection.find_one({'equipid': field.data})
+        if results is not None:
+            raise ValidationError('Equipid already registered.')
+        pass
+    def validate_Equipname(self,field):
+        collection = db.get_collection('equip')
+        results = collection.find_one({'equipname': field.data})
+        if results is not None:
+            raise ValidationError('Equipname already registered.')
+        pass
 
 class EquipModifyForm(FlaskForm):
-    Equipid=StringField("Input Equip id")
-    Equipname=StringField("Input Equip name")
+    equip=SelectField("Select Equip to modify")
+    Equipid=StringField("Input New Equip id",validators=[Required()])
+    Equipname=StringField("Input New Equip name",validators=[Required()])
     Equipspec=StringField("Input equip spec")
-    file = FileField('Register Equip image here', validators=[DataRequired()])
+    equipImagefile = FileField('Register Equip image here', validators=[DataRequired()])
     Register=SubmitField('Modify')
+    def __init__(self, *args, **kwargs):
+        super(EquipModifyForm, self).__init__(*args, **kwargs)
+        collection = db.get_collection('equip')
+        results = collection.find()
+        lst = [(result["equipname"], result["equipid"]) for result in results]
+        equip_lst = [(equipname, equipid) for equipid, equipname in lst]
+        self.equip.choices=equip_lst
+    def validate_Equipid(self,field):
+        collection = db.get_collection('equip')
+        results = collection.find_one({'equipid': field.data})
+        if results is not None:
+            raise ValidationError('Equipid already registered.')
+        pass
+    def validate_Equipname(self,field):
+        collection = db.get_collection('equip')
+        results = collection.find_one({'equipname': field.data})
+        if results is not None:
+            raise ValidationError('Equipname already registered.')
+        pass
 
 class EquipDeleteForm(FlaskForm):
-    Equipid=StringField("Input Equip id")
-    Equipname=StringField("Input Equip name")
-    Equipspec=StringField("Input equip spec")
-    file = FileField('Register Equip image here', validators=[DataRequired()])
-    Register=SubmitField('Delete')
-
+    equip = SelectField("Select Equip to delete")
+    Delete=SubmitField('Delete')
+    def __init__(self, *args, **kwargs):
+        super(EquipDeleteForm, self).__init__(*args, **kwargs)
+        collection = db.get_collection('equip')
+        results = collection.find()
+        lst = [(result["equipname"], result["equipid"]) for result in results]
+        equip_lst = [(equipname, str(equipid)+" - "+str(equipname)) for equipid, equipname in lst]
+        self.equip.choices=equip_lst
