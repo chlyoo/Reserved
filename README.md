@@ -1,4 +1,4 @@
-<h1># RreserveD</h1>
+<h1># ReserveD</h1>
 <h2>2019-2 SIT32006 TEAM PROJECT</h2>
 <h3>Admin Function</h3>
 <li>Register Equips</li>
