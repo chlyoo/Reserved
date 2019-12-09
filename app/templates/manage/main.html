@@ -9,9 +9,11 @@
 {% include "manage/All_equips.html" %}
 <div>
     <h3>Manage equips</h3>
-    <a href="{{  url_for('manage.register_equip') }}"><h4>Register equips</h4></a>
-    <a href="{{  url_for('manage.modify_equip') }}"><h4>Modify equips</h4></a>
-    <a href="{{  url_for('manage.delete_equip') }}"><h4>Delete equips</h4></a>
+    <h4>
+    <input class="btn btn-default" id="Register" type="button" onclick="location.href='{{url_for('manage.register_equip')}}';" value="Register" >
+        <input class="btn btn-default" id="Modify" type="button" onclick="location.href='{{url_for('manage.modify_equip')}}';" value="Modify" >
+        <input class="btn btn-default" id="Delete" type="button" onclick="location.href='{{url_for('manage.delete_equip')}}';" value="Delete" >
+
 </div>
 
 

@@ -35,6 +35,10 @@ def confirm(token):  # 관리자가 메일을 통해서 접속하는 페이지
 	pr = Progress("", "", "", "", "")
 	collection = db.get_collection('progress')
 	result = collection.find_one({'task_id': int(token)})
+	if result==None:
+		flash("Already Canceled Reservation")
+		return redirect(url_for("manage.main"))
+
 	pr.from_dict(result)
 	if pr.confirmed:
 		flash("Has already been confirmed")
@@ -59,6 +63,55 @@ def confirm(token):  # 관리자가 메일을 통해서 접속하는 페이지
 
 		return render_template('manage/do_confirm.html', form=form, progress=pr)
 
+@manage.route('/complete/<taskid>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def complete(taskid):  # 링크 통해서 접속하는 페이지
+	pr = Progress("", "", "", "", "")
+	collection = db.get_collection('progress')
+	result = collection.find_one({'task_id': int(taskid)})
+	pr.from_dict(result)
+	if pr.complete:
+		flash("Completed already")
+		return redirect(url_for("manage.main"))
+	else:
+		pr.complete = True
+		collection.find_one_and_update({"task_id": int(taskid)}, {
+				"$set": {'complete': True}})
+		collection=db.get_collection('equip')
+		result = collection.find_one({'equipid': pr.equipid})
+		xrdate=result['rdate']
+		xrdate.pop(pr.rdate,None)
+		collection.find_one_and_update({'equipid':pr.equipid},{'$set':{'rdate':xrdate}})
+		if pr.complete:
+			flash("Completed")
+			send_email(pr.userid, "Work Complete", 'manage/mail/work_complete',datetime=datetime, progress=pr)
+			flash("Sending E-mail...")
+
+			return redirect(url_for("manage.main"))
+
+@manage.route('/paid/<taskid>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def pay(taskid):  # 링크 통해서 접속하는 페이지
+	pr = Progress("", "", "", "", "")
+	collection = db.get_collection('progress')
+	result = collection.find_one({'task_id': int(taskid)})
+	pr.from_dict(result)
+	if pr.paid:
+		flash("Paid already")
+		return redirect(url_for("manage.main"))
+	else:
+		pr.paid = True
+		collection.update_one({"task_id": int(taskid)}, {
+				"$set": {'paid': pr.paid}})
+		if pr.paid:
+			flash("Paid Successfully")
+			#pay까지 완료된 작업 -> History에 추가하고 Progress에서 삭제
+			return redirect(url_for("manage.main"))
+
+
+
 
 @manage.route('/register', methods=['GET', 'POST'])
 @login_required
@@ -76,7 +129,7 @@ def register_equip():
 		oid = fsresource.put(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
 							 filename=filename)
 		equip.filename=filename
-
+		equip.oid=oid
 		collection.insert(equip.to_dict())
 		flash("Registered")
 		return redirect(url_for('manage.main'))
@@ -96,9 +149,11 @@ def modify_equip():
 		oid = fsresource.put(form.equipImagefile.data, content_type=form.equipImagefile.data.content_type,
 							 filename=filename)
 		equip.filename=filename
+		equip.oid = oid
 		collection = db.get_collection('equip')
 		collection.remove({'equipid': form.equip.data})
-		collection.remove(equip.to_dict())
+		oid = collection.find_one({'equipid': form.equip.data})['oid']
+		fsresource.delete(oid)
 		collection.insert(equip.to_dict())
 		flash("Modified")
 		return redirect(url_for('manage.main'))
@@ -111,7 +166,10 @@ def delete_equip():
 	form=EquipDeleteForm()
 	if form.validate_on_submit():
 		collection = db.get_collection('equip')
+		oid=collection.find_one({'equipid':form.equip.data})['oid']
+		fsresource.delete(oid)
 		collection.remove({'equipid':form.equip.data})
+		collection = db.get_collection('equip')
 #Have to remove file also
 		flash("Deleted")
 		return redirect(url_for('manage.main'))

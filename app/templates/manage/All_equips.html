@@ -6,11 +6,12 @@
     <tr>
     <th width="50px">No</th>
     <th width="80px">Equipid</th>
-    <th>equipname</th>
-    <th>spec</th>
-    <th width="90px">using count</th>
-    <th width="40%">rdate</th>
-    <th>equipimage</th>
+    <th>Equipname</th>
+    <th>Spec</th>
+    <th width="90px">Count</th>
+    <th width="40%">Rdate</th>
+        <th>Filename</th>
+    <th>Equipimage</th>
 </tr>
 {% endif %}
     {% for id,equip in equip_list %}
@@ -19,6 +20,9 @@
         {% for specific in equip %}
         <td>{{ specific }}</td>
     {% endfor %}
+        <td><img src="{{ url_for('manage.equipimage',filename=equip[5])  }}" width=200, height=200></td>
+
+
 {% endfor %}
 
 

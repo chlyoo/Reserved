@@ -13,11 +13,12 @@
     <th>User Memo</th>
     <th>Estimated End Time</th>
     <th>Estimated Price</th>
-
     <th>Confirmed</th>
     <th>Paid</th>
     <th>Complete</th>
-    <th>filename</th>
+    <th>Filename</th>
+    <th>Down</th>
+    <th width="10%">Manage</th>
           </tr>
 {% endif %}
     {% for progress in progress_list %}
@@ -25,6 +26,25 @@
         {% for specific in progress %}
         <td>{{ specific }}</td>
     {% endfor %}
+        <td><a href="{{ url_for('reserve.workfile',filename=progress[10])  }}" >Download</a></td>
+
+
+        {% if progress[8]==False %}
+            <td><a href="{{ url_for('manage.complete',taskid=progress[0]) }}">complete</a>
+             {% if progress[9]==False %}
+                <a href="{{ url_for('manage.pay',taskid=progress[0]) }}">Pay</a></td>
+             {% else %}
+                </td>
+                 {% endif %}
+        {% else %}
+                 <td>
+                 {% if progress[8]==False %}
+                <a href="{{ url_for('manage.pay',taskid=progress[0]) }}">Pay</a></td>
+             {% else %}
+                Finished</td>
+        {% endif %}
+        {% endif %}
+
     {% endfor %}
 
 {% for file in workfile_lst %}

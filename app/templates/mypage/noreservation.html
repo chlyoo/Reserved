@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky - Mypage{% endblock %}
+{% block title %}Reserved - Mypage{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>My page</h1>
+<h3>Welcome! {{ current_user.username }}</h3>
 </div>
+    <div>
+    <input class="btn btn-btn" type="button" id="submit" value="Edit Profile" onclick="location.href='{{url_for('mypage.edit_profile')}}';">
+    </div>
+    <div><h4>Reserve History</h4>
 <div class="col-md-4">
     <h2>No record found</h2>
 </div>

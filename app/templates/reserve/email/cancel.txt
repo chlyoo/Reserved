@@ -1,0 +1,10 @@
+<p>Dear Admin,</p>
+
+<p>{{ progress.userid }}, has cancelled the reservation of <b>{{ progress.equipid}}</b> on <b>{{ progress.rdate }}</b>.</p>
+
+
+<br>
+<p>Sincerely,</p>
+<p>The Reserved Team</p>
+<br>
+<p><small>Note: replies to this email address are not monitored.</small></p>

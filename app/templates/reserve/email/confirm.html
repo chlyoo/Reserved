@@ -1,7 +1,7 @@
 <p>Dear Admin,</p>
 
-<p>{{ progress.userid }}, has reserved the use of <b>{{ progress.equipid}}</b> on {{ progress.rdate }}.</p>
-<p>To confirm the reservation of the user please<a href="{{ url_for('manage.confirm', token=token, _external=True) }}">click here</a>.</p>
+<p>{{ progress.userid }}, has reserved the use of <b>{{ progress.equipid}}</b> on <b>{{ progress.rdate }}</b>.</p>
+<p>To confirm the reservation of the user please<a href="{{ url_for('manage.confirm', token=token, _external=True) }}"> click here</a>.</p>
 <p>Alternatively, you can paste the following link in your browser's address bar:</p>
 <p>{{ url_for('manage.confirm', token=token, _external=True) }}</p>
 

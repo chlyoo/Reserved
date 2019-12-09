@@ -4,19 +4,29 @@
 {% block title %}Reserved - Reserve{% endblock %}
 
 {% block page_content %}
-<div class="page-header">
+    <div>
+<div class="row-md-3">
 
     <h1>Reserve</h1>
 <table>
     <tr>
-{%  for i in lst %}
+{%  for e,i in lst %}
+    {% if e%4==0 %}
+    <tr>
     <td><img src="{{i}}" width="200" height ="200"></td>
+        <td>{{ form.equip.choices[e][1] }} </td>
+        {% else %}
+        <td><img src="{{i}}" width="200" height ="200"></td>
+
+        <td>{{ form.equip.choices[e][1] }} </td>
+
+    {% endif %}
     {% endfor %}
  </tr>
 <tr>
-{% for id,equipname in form.equip.choices %}
-<td>{{ equipname }} </td>
-    {% endfor %}
+
+
+
 </tr>
 </table>
 {{ wtf.quick_form(form) }}
@@ -25,6 +35,7 @@
 
     <!--#{{ form.equip.label }}: {{ form.equip(onchange="this.form.submit()") }}</form>-->
 </div>
+    </div>
 
 
 

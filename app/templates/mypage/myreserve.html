@@ -5,9 +5,12 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h3>Mypage</h3>
+<h3>Welcome! {{ current_user.username }}</h3>
 </div>
     <div>
+    <input class="btn btn-btn" type="button" id="submit" value="Edit Profile" onclick="location.href='{{url_for('mypage.edit_profile')}}';">
+    </div>
+    <div><h4>Reserve History</h4>
     <table align="left" border="1";>
     <tr  align="center" cellpadding=2 cellspacing=2>
         <th>No</th>
@@ -26,6 +29,12 @@
 
        <td>{{ item }}</td>
            {% endfor %}
+       <td>
+           {% if items[6]==False %}
+           <a href="{{ url_for('mypage.cancel',taskid=table[id-1]) }}">cancel</a></td>
+            {% else %}
+       </td>
+       {% endif %}
        </tr>
 	{% endfor %}
 </table>

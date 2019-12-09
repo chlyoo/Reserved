@@ -15,7 +15,7 @@ class ConfirmForm(FlaskForm):
 class EquipRegisterForm(FlaskForm):
     Equipid = StringField("Input Equip id", validators=[Required()])
     Equipname = StringField("Input Equip name", validators=[Required()])
-    Equipspec=StringField("Input equip spec")
+    Equipspec=StringField("Input equip spec", validators=[Required()])
     equipImagefile = FileField('Register Equip image here', validators=[DataRequired()])
     Register=SubmitField('Register')
     def validate_Equipid(self,field):
@@ -31,6 +31,10 @@ class EquipRegisterForm(FlaskForm):
             raise ValidationError('Equipname already registered.')
         pass
 
+    def validate_Equipspec(self, field):
+        if len(field.data)<1:
+            raise ValidationError('Please input spec of the item')
+        pass
 class EquipModifyForm(FlaskForm):
     equip=SelectField("Select Equip to modify")
     Equipid=StringField("Input New Equip id",validators=[Required()])

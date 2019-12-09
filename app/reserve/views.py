@@ -3,7 +3,7 @@ from flask_login import login_user, login_required, logout_user
 from ..models import User, Progress,Equip
 from .forms import EquipListForm, SetRdateForm
 from . import reserve
-
+import pytz
 from werkzeug import secure_filename
 from .. import fsresource,fsworkfile
 from flask import send_file
@@ -24,11 +24,13 @@ def select_equip():
     if result != None:  # 프린터를 보여주고 프린트가 사용가능한 날짜,시간 표시하기
         user = User(current_user.id, "", "", "")
         user.from_dict(result)
+        lst = [e for e in enumerate([url_for('manage.equipimage', filename=file) for file in fsresource.list()])]
         if form.validate_on_submit():
             #return redirect(url_for('reserve.set_rdate', equipid=form.equip.data))
+
             return redirect(url_for('reserve.table', equipid=form.equip.data))
-        return render_template('reserve/reserve_selectequip.html', lst=[url_for('manage.equipimage', filename=file) for file in fsresource.list()] ,
-                               form=form)
+        return render_template('reserve/reserve_selectequip.html', lst=lst ,
+                               len=len(lst),form=form)
 
 @reserve.route('/<equipid>/table',methods=['GET','POST'])
 @login_required
@@ -54,11 +56,6 @@ def tableprevious(equipid,d):
     result = results.pop('rdate')
     return render_template('reserve/rdatetable.html',equipid=equipid, datetime=datetime, calendar=calendar,d=datetime.today(),timedelta=timedelta, time=time,avoid=result)
 
-
-
-
-
-
 @reserve.route('/<equipid>/<datetimeval>',methods=['GET','POST'])
 @login_required
 def set_rdate(equipid,datetimeval):
@@ -67,9 +64,7 @@ def set_rdate(equipid,datetimeval):
     results = collection.find_one({'equipid': equipid})
     result = results.pop('rdate')
     for key in result.keys():
-        print(key)
-        print(form.rdate.data)
-        if form.rdate.data==key:
+        if str(form.rdate.data)==key:
             flash("Already Reserved")
             return redirect(url_for('reserve.table', equipid=equipid))
     if form.validate_on_submit():
@@ -84,7 +79,6 @@ def set_rdate(equipid,datetimeval):
         send_email(current_app.config['ADMIN'], 'Confirm Reservation', 'reserve/email/confirm', progress=progress, token=progress.taskid)  # admin에게 메일 보내야함
         return redirect(url_for('mypage.show_reservation', username=current_user.username))
     return render_template('reserve/reserve_main.html',equipid=equipid, form=form,calendar=calendar)
-
 
 @reserve.route('/workspace/<filename>')
 def workfile(filename):

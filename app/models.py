@@ -20,7 +20,7 @@ class Equip(object):
 	usingcount = 0
 	rdate = dict()
 	filename=""
-
+	oid=""
 	def __init__(self, equipid,	equipname,spec):
 		self.equipid=equipid
 		if equipname is not "" and spec is not "":
@@ -51,7 +51,9 @@ class Equip(object):
 				'spec'        : self.spec,
 				'usingcount'      : self.usingcount,
 				'rdate':self.rdate,
-				'filename':self.filename
+				'filename':self.filename,
+			'oid': self.oid
+
 					}
 		return dict_equip
 
@@ -63,12 +65,15 @@ class Equip(object):
 			self.usingcount = data['usingcount']
 			self.rdate=data['rdate']
 			self.filename = data['filename']
+			self.oid = data['oid']
 
 class Progress(object):
 	estimated_end_time = "Not confirmed"
 	estimated_price ="Unknown"
-	paid = False
+	confirmed = False
 	complete = False
+	paid = False
+
 
 	def __init__(self, equipid, rdate, userid,usermemo,filename):
 		confirmed = False
