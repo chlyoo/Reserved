@@ -41,3 +41,10 @@ class RegistrationForm(FlaskForm):
 		if results is not None:
 			raise ValidationError('Username already registered.')
 		pass
+
+	def validate_stuid(self, field):
+		collection = db.get_collection('users')
+		results = collection.find_one({'stuid':field.data})
+		if results is not None:
+			raise ValidationError('Student id is already used by other user.')
+		pass
